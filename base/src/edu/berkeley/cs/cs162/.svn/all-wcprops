@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/cs162/group14/!svn/ver/1/trunk/src/edu/berkeley/cs/cs162
+END
+LoginError.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/cs162/group14/!svn/ver/1/trunk/src/edu/berkeley/cs/cs162/LoginError.java
+END
+ChatServer.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/cs162/group14/!svn/ver/1/trunk/src/edu/berkeley/cs/cs162/ChatServer.java
+END
+TestChatServer.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/cs162/group14/!svn/ver/1/trunk/src/edu/berkeley/cs/cs162/TestChatServer.java
+END
+ChatServerInterface.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/cs162/group14/!svn/ver/1/trunk/src/edu/berkeley/cs/cs162/ChatServerInterface.java
+END
+BaseUser.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/cs162/group14/!svn/ver/1/trunk/src/edu/berkeley/cs/cs162/BaseUser.java
+END
+MessageDeliveryTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/cs162/group14/!svn/ver/1/trunk/src/edu/berkeley/cs/cs162/MessageDeliveryTask.java
+END
