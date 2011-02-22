@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class User extends BaseUser {
 	
@@ -19,5 +20,8 @@ public class User extends BaseUser {
 		chatlogs = new HashMap<String, ChatLog>();
 	}
 	
+	public Set<String> getGroups() {
+		return server.getGroups();
+	}
 	
 }

@@ -77,4 +77,8 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public Set<String> getGroups() {
+		return groups.keySet();
+	}
 }
