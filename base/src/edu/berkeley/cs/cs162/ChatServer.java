@@ -41,7 +41,11 @@ public class ChatServer extends Thread implements ChatServerInterface {
 			lock.writeLock().unlock();
 			return LoginError.USER_REJECTED;
 		}
-		return null;
+		User newUser = new User();
+		users.put(username, newUser);
+		newUser.connected();
+		lock.writeLock().unlock();
+		return LoginError.USER_ACCEPTED;
 	}
 
 	@Override
