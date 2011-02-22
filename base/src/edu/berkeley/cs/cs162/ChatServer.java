@@ -43,6 +43,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		}
 		User newUser = new User(this, username);
 		users.put(username, newUser);
+		allNames.add(username);
 		newUser.connected();
 		lock.writeLock().unlock();
 		return LoginError.USER_ACCEPTED;
