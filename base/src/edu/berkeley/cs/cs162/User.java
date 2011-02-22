@@ -20,8 +20,14 @@ public class User extends BaseUser {
 		chatlogs = new HashMap<String, ChatLog>();
 	}
 	
-	public Set<String> getGroups() {
-		return server.getGroups();
+	public void getGroups() { 
+		Set<String> groups = server.getGroups();
+		// Do something with group list
+	}
+	
+	public void send(String dest, String msg) {
+		MsgSendError msgStatus = server.processMessage(username, dest, msg);
+		// Do something with message send error
 	}
 	
 }

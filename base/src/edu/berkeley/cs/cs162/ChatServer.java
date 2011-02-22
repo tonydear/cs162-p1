@@ -81,4 +81,8 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	public Set<String> getGroups() {
 		return groups.keySet();
 	}
+	
+	public MsgSendError processMessage(String source, String dest, String msg) {
+		return MsgSendError.MESSAGE_SENT;
+	}
 }
