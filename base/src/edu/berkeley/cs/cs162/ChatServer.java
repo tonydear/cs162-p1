@@ -74,8 +74,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 
 	@Override
 	public BaseUser getUser(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		return users.get(username);
 	}
 	
 	public Set<String> getGroups() {
@@ -83,6 +82,25 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	}
 	
 	public MsgSendError processMessage(String source, String dest, String msg) {
+		lock.readLock().lock();
+		if (users.containsKey(source)) {
+			if(users.containsKey(dest)) {
+				Message message = new Message(Long.toString(System.currentTimeMillis()),dest, source, msg);
+				User destUser = users.get(dest);
+				destUser.msgReceived(message);
+			} else if(groups.containsKey(dest)) {
+				Message message = new Message(Long.toString(System.currentTimeMillis()),dest, source, msg);
+				ChatGroup group = groups.get(dest);
+				// Have group broadcast the message and if fail release read lock and return error
+			} else {
+				lock.readLock().unlock();
+				return MsgSendError.INVALID_DEST;
+			}
+		} else {
+			lock.readLock().unlock();
+			return MsgSendError.INVALID_SOURCE;
+		}
+		lock.readLock().unlock();
 		return MsgSendError.MESSAGE_SENT;
 	}
 }

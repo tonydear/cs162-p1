@@ -30,4 +30,13 @@ public class User extends BaseUser {
 		// Do something with message send error
 	}
 	
+	public void msgReceived(Message msg) {
+		// Add to chatlog
+		msgReceived(msg.getContent());
+	}
+	
+	public void msgReceived(String msg) {
+		System.out.println(username + " received the message: " + msg);
+	}
+	
 }

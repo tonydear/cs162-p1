@@ -1,4 +1,4 @@
-package edu.berkeley.cs;
+package edu.berkeley.cs.cs162;
 
 public class Message {
 	private String timestamp;
