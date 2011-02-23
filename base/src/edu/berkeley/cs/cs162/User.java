@@ -16,7 +16,7 @@ public class User extends BaseUser {
 	public User(ChatServer server, String username) {
 		this.server = server;
 		this.username = username;
-		groupsJoined = new LinkedList<ChatGroup>();
+		groupsJoined = new LinkedList<String>();
 		chatlogs = new HashMap<String, ChatLog>();
 	}
 	
