@@ -23,6 +23,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	private Map<String, ChatGroup> groups;
 	private Set<String> allNames;
 	private ReentrantReadWriteLock lock;
+	private boolean isDown;
 	private final static int MAX_USERS = 100;
 	
 	public ChatServer() {
@@ -30,11 +31,14 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		groups = new HashMap<String, ChatGroup>();
 		allNames = new HashSet<String>();
 		lock = new ReentrantReadWriteLock();
+		isDown = false;
 	}
 	
 	@Override
 	public LoginError login(String username) {
 		lock.writeLock().lock();
+		if(isDown)
+			return LoginError.USER_REJECTED;
 		if (users.size() >= MAX_USERS) {
 			lock.writeLock().unlock();
 			return LoginError.USER_DROPPED;
@@ -102,8 +106,11 @@ public class ChatServer extends Thread implements ChatServerInterface {
 
 	@Override
 	public void shutdown() {
-		// TODO Auto-generated method stub
-		
+		lock.writeLock().lock();
+		users.clear();
+		groups.clear();
+		isDown = true;
+		lock.writeLock().unlock();
 	}
 
 	@Override
