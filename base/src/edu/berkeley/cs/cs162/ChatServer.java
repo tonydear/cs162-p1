@@ -73,7 +73,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	}
 
 	@Override
-	public boolean joinGroup(User user, String groupname) {
+	public boolean joinGroup(BaseUser user, String groupname) {
 		// TODO Auto-generated method stub
 		lock.writeLock().lock();
 		ChatGroup group;
