@@ -27,7 +27,7 @@ public class User extends BaseUser {
 	
 	public void getUsers() {
 		Set<String> users = server.getUsers();
-		// Do something with group list
+		// Do something with users list
 	}
 	
 	public void send(String dest, String msg) {
