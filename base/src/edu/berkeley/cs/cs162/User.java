@@ -43,6 +43,7 @@ public class User extends BaseUser {
 			log = chatlogs.get(source);
 		} else {
 			log = new ChatLog(source, this);
+			chatlogs.put(msg.getSource(), log);
 		}
 		log.add(msg);
 		msgReceived(msg.getContent());
