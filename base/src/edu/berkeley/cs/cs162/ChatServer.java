@@ -138,7 +138,10 @@ public class ChatServer extends Thread implements ChatServerInterface {
 			} else if(groups.containsKey(dest)) {
 				Message message = new Message(Long.toString(System.currentTimeMillis()),dest, source, msg);
 				ChatGroup group = groups.get(dest);
-				// Have group broadcast the message and if fail release read lock and return error
+				if (!group.forwardMessage(message)) {
+					lock.readLock().unlock();
+					return MsgSendError.NOT_IN_GROUP;
+				}
 			} else {
 				lock.readLock().unlock();
 				return MsgSendError.INVALID_DEST;

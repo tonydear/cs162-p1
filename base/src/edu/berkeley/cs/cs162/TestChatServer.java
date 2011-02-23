@@ -25,14 +25,14 @@ public class TestChatServer {
 		s.joinGroup(bu, "group1");
 		
 		for (i = 0; i < 50; i++) {
-			MessageDeliveryTask t = new MessageDeliveryTask(s, "steve", "mike", "hi "+ i);
-			//MessageDeliveryTask c = new MessageDeliveryTask(s, "steve", "group1", "hig "+ i);
-			exe.execute(t);
-			//exe.execute(c);
+			//MessageDeliveryTask t = new MessageDeliveryTask(s, "steve", "mike", "hi "+ i);
+			MessageDeliveryTask c = new MessageDeliveryTask(s, "steve", "group1", "hig "+ i);
+			//exe.execute(t);
+			exe.execute(c);
 		}
 		exe.shutdown();
 		
-		s.shutdown();
+		//s.shutdown();
 		System.out.println("done \n");
 	}
 }
