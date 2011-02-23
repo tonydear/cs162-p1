@@ -20,14 +20,15 @@ public class TestChatServer {
 		
 		s.login("steve");
 		s.login("mike");
+		s.login("jay");
 		BaseUser bu = s.getUser("mike");
-		
+		BaseUser jay = s.getUser("jay");
 		s.joinGroup(bu, "group1");
-		
+		s.joinGroup(jay, "group1");
 		for (i = 0; i < 50; i++) {
-			//MessageDeliveryTask t = new MessageDeliveryTask(s, "steve", "mike", "hi "+ i);
+			MessageDeliveryTask t = new MessageDeliveryTask(s, "steve", "mike", "hi "+ i);
 			MessageDeliveryTask c = new MessageDeliveryTask(s, "steve", "group1", "hig "+ i);
-			//exe.execute(t);
+			exe.execute(t);
 			exe.execute(c);
 		}
 		exe.shutdown();

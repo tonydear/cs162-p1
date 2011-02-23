@@ -17,12 +17,12 @@ public class MessageDeliveryTask implements Runnable {
 	
 	@Override
 	public void run() {
-		System.out.println("Source: " + source + ", Destination: " + destination + ", Starting: " + Calendar.getInstance().getTime());
+		System.out.println("Source: " + source + ", Destination: " + destination + ", Message: " + message + ", Starting: " + Calendar.getInstance().getTime());
 		BaseUser u = this.server.getUser(this.source);
 		if (u == null)
 			return;
 		u.send(this.destination, this.message);
-		System.out.println("Source: " + source + ", Destination: " + destination + ", Finishing: " + Calendar.getInstance().getTime());	
+		System.out.println("Source: " + source + ", Destination: " + destination + ", Message: " + message + ", Finishing: " + Calendar.getInstance().getTime());	
 	}
 
 }
