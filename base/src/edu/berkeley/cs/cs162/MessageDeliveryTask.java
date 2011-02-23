@@ -17,6 +17,7 @@ public class MessageDeliveryTask implements Runnable {
 	
 	@Override
 	public void run() {
+		System.out.println("Source: " + source + ", Destination: " + destination);
 		System.out.print("Starting: ");
 		System.out.println(Calendar.getInstance().getTime());
 		BaseUser u = this.server.getUser(this.source);
@@ -24,6 +25,7 @@ public class MessageDeliveryTask implements Runnable {
 			return;
 		u.send(this.destination, this.message);
 		System.out.print("Finishing: ");
+		System.out.println("Source: " + source + ", Destination: " + destination);
 		System.out.println(Calendar.getInstance().getTime());		
 	}
 
