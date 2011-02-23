@@ -34,6 +34,10 @@ public class User extends BaseUser {
 		return groupsJoined;
 	}
 	
+	public String getUsername() {
+		return username;
+	}
+	
 	public void send(String dest, String msg) {
 		MsgSendError msgStatus = server.processMessage(username, dest, msg);
 		// Do something with message send error

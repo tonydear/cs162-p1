@@ -73,31 +73,33 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	}
 
 	@Override
-	public boolean joinGroup(BaseUser user, String groupname) {
+	public boolean joinGroup(BaseUser baseUser, String groupname) {
 		// TODO Auto-generated method stub
 		lock.writeLock().lock();
 		ChatGroup group;
+		User user = (User) baseUser;
 		boolean success = false;
 		if(groups.containsKey(groupname)) {
 			group = groups.get(groupname);
-			success = group.joinGroup(user.getName(), user);
+			success = group.joinGroup(user.getUsername(), user);
 			lock.writeLock().unlock();
 			return success;
 		}
 		else {
 			group = new ChatGroup(groupname);
 			groups.put(groupname, group);
-			success = group.joinGroup(user.getName(), user);
+			success = group.joinGroup(user.getUsername(), user);
 			lock.writeLock().unlock();
 			return success;
 		}
 	}
 
 	@Override
-	public boolean leaveGroup(BaseUser user, String groupname) {
+	public boolean leaveGroup(BaseUser baseUser, String groupname) {
 		// TODO Auto-generated method stub
+		User user = (User) baseUser;
 		ChatGroup group = groups.get(groupname);
-		if(group.leaveGroup(user.getName())) {
+		if(group.leaveGroup(user.getUsername())) {
 			if(group.getNumUser() <= 0) { groups.remove(groupname); }
 			return true;
 		}
