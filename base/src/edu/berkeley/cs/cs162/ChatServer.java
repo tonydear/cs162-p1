@@ -2,6 +2,8 @@ package edu.berkeley.cs.cs162;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -52,7 +54,18 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	@Override
 	public boolean logoff(String username) {
 		// TODO Auto-generated method stub
-		return false;
+		lock.writeLock().lock();
+		if(!users.containsKey(username)){
+			lock.writeLock().unlock();
+			return false;
+		}
+		List <String> userGroups = users.get(username).getUserGroups();
+		Iterator<String> it = userGroups.iterator();
+		while(it.hasNext()){
+			groups.get(it.next()).leaveGroup(username);
+		}
+		lock.writeLock().unlock();	
+		return true;
 	}
 
 	@Override
