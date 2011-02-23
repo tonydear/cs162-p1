@@ -10,13 +10,13 @@ public class User extends BaseUser {
 	
 	private ChatServer server;
 	private String username;
-	private List<ChatGroup> groupsJoined;
+	private List<String> groupsJoined;
 	private Map<String, ChatLog> chatlogs;
 	
 	public User(ChatServer server, String username) {
 		this.server = server;
 		this.username = username;
-		groupsJoined = new LinkedList<ChatGroup>();
+		groupsJoined = new LinkedList<String>();
 		chatlogs = new HashMap<String, ChatLog>();
 	}
 	
@@ -28,6 +28,10 @@ public class User extends BaseUser {
 	public void getUsers() {
 		Set<String> users = server.getUsers();
 		// Do something with users list
+	}
+	
+	public List<String> getUserGroups() {
+		return groupsJoined;
 	}
 	
 	public void send(String dest, String msg) {
@@ -43,6 +47,7 @@ public class User extends BaseUser {
 			log = chatlogs.get(source);
 		} else {
 			log = new ChatLog(source, this);
+			chatlogs.put(msg.getSource(), log);
 		}
 		log.add(msg);
 		msgReceived(msg.getContent());
