@@ -8,6 +8,7 @@ package edu.berkeley.cs.cs162;
  *
  */
 
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 public class TestChatServer {
@@ -31,9 +32,15 @@ public class TestChatServer {
 			exe.execute(t);
 			exe.execute(c);
 		}
-		exe.shutdown();
 		
-		//s.shutdown();
+		exe.shutdown();
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		s.shutdown();
 		System.out.println("done \n");
 	}
 }
