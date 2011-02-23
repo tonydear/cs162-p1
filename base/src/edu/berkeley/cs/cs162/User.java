@@ -37,6 +37,14 @@ public class User extends BaseUser {
 	
 	public void msgReceived(Message msg) {
 		// Add to chatlog
+		String source = msg.getSource();
+		ChatLog log;
+		if (chatlogs.containsKey(source)) {
+			log = chatlogs.get(source);
+		} else {
+			log = new ChatLog(source, this);
+		}
+		log.add(msg);
 		msgReceived(msg.getContent());
 	}
 	
