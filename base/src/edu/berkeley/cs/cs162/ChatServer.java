@@ -99,13 +99,8 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		// TODO Auto-generated method stub
 		User user = (User) baseUser;
 		ChatGroup group = groups.get(groupname);
-<<<<<<< HEAD
-		if(group.leaveGroup(user.getName())) {
-			if(group.getNumUsers() <= 0) { groups.remove(groupname); }
-=======
 		if(group.leaveGroup(user.getUsername())) {
-			if(group.getNumUser() <= 0) { groups.remove(groupname); }
->>>>>>> 20c6f06b18f8da623181fb3b2d2cc5335d13313f
+			if(group.getNumUsers() <= 0) { groups.remove(groupname); }
 			return true;
 		}
 		return false;
