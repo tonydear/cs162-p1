@@ -10,7 +10,7 @@ public class User extends BaseUser {
 	
 	private ChatServer server;
 	private String username;
-	private List<ChatGroup> groupsJoined;
+	private List<String> groupsJoined;
 	private Map<String, ChatLog> chatlogs;
 	
 	public User(ChatServer server, String username) {
@@ -30,7 +30,7 @@ public class User extends BaseUser {
 		// Do something with users list
 	}
 	
-	public List<ChatGroup> getUserGroups() {
+	public List<String> getUserGroups() {
 		return groupsJoined;
 	}
 	
