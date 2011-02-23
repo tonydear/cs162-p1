@@ -6,23 +6,25 @@ public class Message {
 	private String dest;
 	private String content;
 	
-	
-	
 	public Message(String timestamp, String source, String dest, String content) {
 		this.timestamp = timestamp;
 		this.source = source;
 		this.dest = dest;
 		this.content = content;
 	}
+	
 	public String getTimestamp() {
 		return timestamp;
 	}
+	
 	public String getSource() {
 		return source;
 	}
+	
 	public String getDest() {
 		return dest;
 	}
+	
 	public String getContent() {
 		return content;
 	}

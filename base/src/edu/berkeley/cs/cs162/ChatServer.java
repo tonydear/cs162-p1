@@ -78,8 +78,10 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	public boolean leaveGroup(BaseUser user, String groupname) {
 		// TODO Auto-generated method stub
 		ChatGroup group = groups.get(groupname);
-		if(group.leaveGroup(user.getName()))
+		if(group.leaveGroup(user.getName())) {
+			if(group.getNumUser() <= 0) { groups.remove(groupname); }
 			return true;
+		}
 		return false;
 	}
 
