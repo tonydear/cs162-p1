@@ -82,6 +82,10 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		return groups.keySet();
 	}
 	
+	public Set<String> getUsers() {
+		return users.keySet();
+	}
+	
 	public MsgSendError processMessage(String source, String dest, String msg) {
 		lock.readLock().lock();
 		if (users.containsKey(source)) {
