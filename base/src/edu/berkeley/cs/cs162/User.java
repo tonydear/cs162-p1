@@ -25,6 +25,11 @@ public class User extends BaseUser {
 		// Do something with group list
 	}
 	
+	public void getUsers() {
+		Set<String> users = server.getUsers();
+		// Do something with group list
+	}
+	
 	public void send(String dest, String msg) {
 		MsgSendError msgStatus = server.processMessage(username, dest, msg);
 		// Do something with message send error
