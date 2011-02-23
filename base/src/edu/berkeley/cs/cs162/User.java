@@ -30,6 +30,10 @@ public class User extends BaseUser {
 		// Do something with users list
 	}
 	
+	public List<ChatGroup> getUserGroups() {
+		return groupsJoined;
+	}
+	
 	public void send(String dest, String msg) {
 		MsgSendError msgStatus = server.processMessage(username, dest, msg);
 		// Do something with message send error
