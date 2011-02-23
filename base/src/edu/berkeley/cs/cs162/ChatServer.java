@@ -30,7 +30,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		users = new HashMap<String, User>();
 		groups = new HashMap<String, ChatGroup>();
 		allNames = new HashSet<String>();
-		lock = new ReentrantReadWriteLock();
+		lock = new ReentrantReadWriteLock(true);
 		isDown = false;
 	}
 	
