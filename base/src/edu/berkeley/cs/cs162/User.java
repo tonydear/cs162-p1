@@ -42,7 +42,7 @@ public class User extends BaseUser {
 		if (chatlogs.containsKey(source)) {
 			log = chatlogs.get(source);
 		} else {
-			log = new ChatLog(source, username);
+			log = new ChatLog(source, this);
 		}
 		log.add(msg);
 		msgReceived(msg.getContent());
