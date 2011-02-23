@@ -100,7 +100,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		User user = (User) baseUser;
 		ChatGroup group = groups.get(groupname);
 		if(group.leaveGroup(user.getUsername())) {
-			if(group.getNumUser() <= 0) { groups.remove(groupname); }
+			if(group.getNumUsers() <= 0) { groups.remove(groupname); }
 			return true;
 		}
 		return false;
