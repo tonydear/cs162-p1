@@ -18,6 +18,10 @@ public class ChatGroup {
 		return userlist.size();
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 	public boolean onCreate() {
 		return true;
 	}
