@@ -9,6 +9,7 @@ package edu.berkeley.cs.cs162;
  */
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 public class TestChatServer {
@@ -42,5 +43,75 @@ public class TestChatServer {
 		}
 		s.shutdown();
 		System.out.println("done \n");
+	}
+	
+	/**
+	 * Logs the events of a user logging into the ChatServer.  This should only be called AFTER
+	 * the user has been accepted by the ChatServer.
+	 *
+	 * @param username user logging the event.
+	 * @param time time of the event.
+	 */
+	public static void logUserLogin(String username, Date time){
+		
+	}
+
+	/**
+	 * Logs the events of a user logging into the ChatServer.  This should only be called AFTER
+	 * the user has been accepted by the ChatServer.
+	 *
+	 * @param username user logging the event.
+	 * @param time time of the event.
+	 */
+	public static void logUserLoginFailed(String username, Date time, LoginError e){
+		
+	}
+	
+	/**
+	 * Logs the logout event.  This should only be called AFTER the user has been released by the
+	 * ChatServer successfully.
+	 * 
+	 * @param username user logging the event
+	 * @param time time of the event
+	 */
+	public static void logUserLogout(String username, Date time){
+		
+	}
+	
+	/**
+	 * This should be called when the user attempts to send a message to the chat server 
+	 * (after the call is made).
+	 *
+	 * @param msg the string representation of the message. 
+	 * 			SRC DST TIMESTAMP_UNIXTIME SQN
+	 * 		example: alice bob 1298489721 23
+	 */
+	public static void logUserSendMsg(String msg){
+		
+	}
+	
+	/**
+	 * If, for any reason, the ChatServer determines that the message cannot be delivered.  This
+	 * message should be called to log that event.
+	 * 
+	 * @param msg string representation of the message
+	 * 			SRC DST TIMESTAMP_UNIXTIME SQN
+	 * 		example: alice bob 1298489721 23
+	 * @param time time when the event occurred.
+	 */
+	public static void logChatServerDropMsg(String msg, Date time){
+		
+	}
+	
+	/**
+	 * When the user receives a message, this method should be called.
+	 * 
+	 * @param msg string representation of the message.
+	 * 			SRC DST TIMESTAMP_UNIXTIME SQN
+	 * 		example: alice bob 1298489721 23
+	 * @param time time when the event occurred.
+	 */
+	public static void logUserMsgRecvd(String msg, Date time){
+		
 	}
 }
