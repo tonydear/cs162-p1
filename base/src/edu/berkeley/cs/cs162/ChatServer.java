@@ -68,6 +68,8 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		while(it.hasNext()){
 			groups.get(it.next()).leaveGroup(username);
 		}
+		allNames.remove(username);
+		users.remove(username);
 		lock.writeLock().unlock();	
 		return true;
 	}
@@ -86,6 +88,8 @@ public class ChatServer extends Thread implements ChatServerInterface {
 			return success;
 		}
 		else {
+			if(allNames.contains(groupname))
+				return success;
 			group = new ChatGroup(groupname);
 			groups.put(groupname, group);
 			success = group.joinGroup(user.getUsername(), user);
