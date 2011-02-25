@@ -127,6 +127,9 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		return users.get(username);
 	}
 	
+	public ChatGroup getGroup(String groupname) {
+		return groups.get(groupname);	}
+	
 	public Set<String> getGroups() {
 		return groups.keySet();
 	}
@@ -141,7 +144,9 @@ public class ChatServer extends Thread implements ChatServerInterface {
 			if(users.containsKey(dest)) {
 				Message message = new Message(Long.toString(System.currentTimeMillis()),dest, source, msg);
 				User destUser = users.get(dest);
+				User sourceUser = users.get(source);
 				destUser.queueRecvMsg(message);
+				sourceUser.queueRecvMsg(message);
 			} else if(groups.containsKey(dest)) {
 				Message message = new Message(Long.toString(System.currentTimeMillis()),dest, source, msg);
 				ChatGroup group = groups.get(dest);
