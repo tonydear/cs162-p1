@@ -52,7 +52,7 @@ public class ChatGroup {
 		User user;
 		while(it.hasNext()) {
 			user = it.next();
-			user.queueRecvMsg(msg);
+			user.msgReceived(msg);
 		}
 		return true;
 	}
