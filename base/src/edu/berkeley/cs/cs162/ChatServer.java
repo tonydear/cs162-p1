@@ -141,7 +141,9 @@ public class ChatServer extends Thread implements ChatServerInterface {
 			if(users.containsKey(dest)) {
 				Message message = new Message(Long.toString(System.currentTimeMillis()),dest, source, msg);
 				User destUser = users.get(dest);
+				User sourceUser = users.get(source);
 				destUser.msgReceived(message);
+				sourceUser.msgReceived(message);
 			} else if(groups.containsKey(dest)) {
 				Message message = new Message(Long.toString(System.currentTimeMillis()),dest, source, msg);
 				ChatGroup group = groups.get(dest);
