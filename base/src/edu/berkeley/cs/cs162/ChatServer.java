@@ -127,6 +127,9 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		return users.get(username);
 	}
 	
+	public ChatGroup getGroup(String groupname) {
+		return groups.get(groupname);	}
+	
 	public Set<String> getGroups() {
 		return groups.keySet();
 	}
