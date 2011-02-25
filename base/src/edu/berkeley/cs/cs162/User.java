@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 public class User extends BaseUser {
@@ -12,12 +13,14 @@ public class User extends BaseUser {
 	private String username;
 	private List<String> groupsJoined;
 	private Map<String, ChatLog> chatlogs;
+	private Queue<Message> toRecv;
 	
 	public User(ChatServer server, String username) {
 		this.server = server;
 		this.username = username;
 		groupsJoined = new LinkedList<String>();
 		chatlogs = new HashMap<String, ChatLog>();
+		toRecv = new LinkedList<Message>();
 	}
 	
 	public void getGroups() { 
@@ -59,6 +62,17 @@ public class User extends BaseUser {
 	
 	public void msgReceived(String msg) {
 		System.out.println(username + " received the message: " + msg);
+	}
+	
+	public void run() {
+		while(!toRecv.isEmpty()) {
+			Message msg = toRecv.poll();
+			msgReceived(msg);
+		}
+	}
+	
+	public void queueRecvMsg(Message msg) {
+		toRecv.add(msg);
 	}
 	
 }
