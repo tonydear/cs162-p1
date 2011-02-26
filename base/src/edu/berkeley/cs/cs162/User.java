@@ -57,9 +57,9 @@ public class User extends BaseUser {
 	}
 	
 	public void msgReceived(Message msg) {
-		recvLock.readLock().lock();
+		recvLock.writeLock().lock();
 		toRecv.add(msg);		
-		recvLock.readLock().unlock();
+		recvLock.writeLock().unlock();
 	}
 	
 	public void msgReceived(String msg) {
