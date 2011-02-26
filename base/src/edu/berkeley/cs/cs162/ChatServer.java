@@ -3,8 +3,10 @@ package edu.berkeley.cs.cs162;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -25,6 +27,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	private ReentrantReadWriteLock lock;
 	private boolean isDown;
 	private final static int MAX_USERS = 100;
+	private Queue<String> loginQueue;
 	
 	public ChatServer() {
 		users = new HashMap<String, User>();
@@ -32,6 +35,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		allNames = new HashSet<String>();
 		lock = new ReentrantReadWriteLock(true);
 		isDown = false;
+		loginQueue = new LinkedList<String>();
 	}
 	
 	@Override
@@ -39,17 +43,20 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		lock.writeLock().lock();
 		if(isDown)
 			return LoginError.USER_REJECTED;
-		if (users.size() >= MAX_USERS) {
-			lock.writeLock().unlock();
-			return LoginError.USER_DROPPED;
-		}
 		if (allNames.contains(username)) {
 			lock.writeLock().unlock();
 			return LoginError.USER_REJECTED;
 		}
-		User newUser = new User(this, username);
-		users.put(username, newUser);
-		allNames.add(username);
+		if (users.size() >= MAX_USERS) {
+			loginQueue.add(username);
+			lock.writeLock().unlock();
+			return LoginError.USER_DROPPED;
+		}
+		loginQueue.add(username);
+		String newUsername = loginQueue.poll();
+		User newUser = new User(this, newUsername);
+		users.put(newUsername, newUser);
+		allNames.add(newUsername);
 		newUser.connected();
 		lock.writeLock().unlock();
 		return LoginError.USER_ACCEPTED;
