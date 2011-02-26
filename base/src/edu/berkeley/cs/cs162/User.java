@@ -1,5 +1,6 @@
 package edu.berkeley.cs.cs162;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -84,6 +85,7 @@ public class User extends BaseUser {
 				Message msg = toRecv.poll();
 				logRecvMsg(msg);
 				msgReceived(msg.getContent());
+				TestChatServer.logUserMsgRecvd(username, msg.getContent(), new Date());
 			}
 			recvLock.writeLock().unlock();
 		}

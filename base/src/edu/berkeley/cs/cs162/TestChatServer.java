@@ -95,6 +95,7 @@ public class TestChatServer {
 	 * @param username user logging the event.
 	 * @param time time of the event.
 	 */
+	//done
 	public static void logUserLeaveGroup(String groupname, String username, Date time){
 	}
 	
@@ -108,6 +109,7 @@ public class TestChatServer {
 	 * 			SRC DST TIMESTAMP_UNIXTIME SQN
 	 * 		example: alice bob 1298489721 23
 	 */
+	//done
 	public static void logUserSendMsg(String username, String msg){
 	}
 	
@@ -120,6 +122,7 @@ public class TestChatServer {
 	 * 		example: alice bob 1298489721 23
 	 * @param time time when the event occurred.
 	 */
+	//done
 	public static void logChatServerDropMsg(String msg, Date time){
 	}
 	
@@ -132,6 +135,7 @@ public class TestChatServer {
 	 * 		example: alice bob 1298489721 23
 	 * @param time time when the event occurred.
 	 */
+	//done
 	public static void logUserMsgRecvd(String username, String msg, Date time){
 	}
 }

@@ -1,5 +1,6 @@
 package edu.berkeley.cs.cs162;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -115,6 +116,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		if(group.leaveGroup(user.getUsername())) {
 			if(group.getNumUsers() <= 0) { groups.remove(groupname); }
 			lock.writeLock().unlock();
+			TestChatServer.logUserLeaveGroup(groupname, user.getUsername(), new Date());
 			return true;
 		}
 		lock.writeLock().unlock();
@@ -147,19 +149,20 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	}
 	
 	public MsgSendError processMessage(String source, String dest, String msg) {
+		Message message = new Message(Long.toString(System.currentTimeMillis()),dest, source, msg);
+		TestChatServer.logUserSendMsg(source, message.toString());
 		lock.readLock().lock();
 		if (users.containsKey(source)) {
 			if(users.containsKey(dest)) {
-				Message message = new Message(Long.toString(System.currentTimeMillis()),dest, source, msg);
 				User destUser = users.get(dest);
 				User sourceUser = users.get(source);
 				destUser.msgReceived(message);
 				sourceUser.msgReceived(message);
 			} else if(groups.containsKey(dest)) {
-				Message message = new Message(Long.toString(System.currentTimeMillis()),dest, source, msg);
 				ChatGroup group = groups.get(dest);
 				if (!group.forwardMessage(message)) {
 					lock.readLock().unlock();
+					TestChatServer.logChatServerDropMsg(message.toString(), new Date());
 					return MsgSendError.NOT_IN_GROUP;
 				}
 			} else {
