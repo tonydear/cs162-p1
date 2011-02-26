@@ -61,9 +61,7 @@ public class User extends BaseUser {
 	
 	public void msgReceived(Message msg) {
 		recvLock.writeLock().lock();
-		toRecv.add(msg);		
-		msg.setSQN(sqn);
-		sqn++;
+		toRecv.add(msg);	
 		recvLock.writeLock().unlock();
 	}
 	
@@ -76,7 +74,8 @@ public class User extends BaseUser {
 			sendLock.writeLock().lock();
 			if(!toSend.isEmpty()) {
 				Pair<String,String> pair = toSend.poll();
-				MsgSendError msgStatus = server.processMessage(username, pair.fst, pair.snd);
+				MsgSendError msgStatus = server.processMessage(username, pair.fst, pair.snd, sqn);
+				sqn++;
 				// Do something with message send error
 			}
 			sendLock.writeLock().unlock();

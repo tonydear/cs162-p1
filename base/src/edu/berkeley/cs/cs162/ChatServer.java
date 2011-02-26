@@ -155,8 +155,9 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		return users.keySet();
 	}
 	
-	public MsgSendError processMessage(String source, String dest, String msg) {
+	public MsgSendError processMessage(String source, String dest, String msg, int sqn) {
 		Message message = new Message(Long.toString(System.currentTimeMillis()),dest, source, msg);
+		message.setSQN(sqn);
 		TestChatServer.logUserSendMsg(source, message.toString());
 		lock.readLock().lock();
 		if (users.containsKey(source)) {
@@ -174,13 +175,19 @@ public class ChatServer extends Thread implements ChatServerInterface {
 				}
 			} else {
 				lock.readLock().unlock();
+				TestChatServer.logChatServerDropMsg(message.toString(), new Date());
 				return MsgSendError.INVALID_DEST;
 			}
 		} else {
 			lock.readLock().unlock();
+			TestChatServer.logChatServerDropMsg(message.toString(), new Date());
 			return MsgSendError.INVALID_SOURCE;
 		}
 		lock.readLock().unlock();
 		return MsgSendError.MESSAGE_SENT;
+	}
+	
+	public MsgSendError processMessage(String source, String dest, String msg) {
+		return processMessage(source,dest,msg,0);
 	}
 }
