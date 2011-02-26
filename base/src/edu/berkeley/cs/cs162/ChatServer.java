@@ -38,6 +38,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		loginQueue = new LinkedList<String>();
 	}
 	
+	//Not sure if this is the right way to add queue because ChatServer isn't a thread and there's no loop that processes the queue (it only pops off queue when another user tries to login)
 	@Override
 	public LoginError login(String username) {
 		lock.writeLock().lock();
