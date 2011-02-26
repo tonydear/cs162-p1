@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.sun.tools.javac.util.Pair;
 
@@ -17,6 +18,7 @@ public class User extends BaseUser {
 	private Map<String, ChatLog> chatlogs;
 	private Queue<Message> toRecv;
 	private Queue<Pair<String,String>> toSend;
+	private ReentrantReadWriteLock recvLock, sendLock;
 	
 	public User(ChatServer server, String username) {
 		this.server = server;
@@ -25,6 +27,8 @@ public class User extends BaseUser {
 		chatlogs = new HashMap<String, ChatLog>();
 		toRecv = new LinkedList<Message>();
 		toSend = new LinkedList<Pair<String,String>>();
+		recvLock = new ReentrantReadWriteLock(true);
+		sendLock = new ReentrantReadWriteLock(true);
 	}
 	
 	public void getGroups() { 
@@ -47,11 +51,15 @@ public class User extends BaseUser {
 	
 	public void send(String dest, String msg) {
 		Pair<String,String> pair = new Pair<String,String>(dest, msg);
+		sendLock.writeLock().lock();
 		toSend.add(pair);
+		sendLock.writeLock().unlock();
 	}
 	
 	public void msgReceived(Message msg) {
+		recvLock.readLock().lock();
 		toRecv.add(msg);		
+		recvLock.readLock().unlock();
 	}
 	
 	public void msgReceived(String msg) {
@@ -59,15 +67,21 @@ public class User extends BaseUser {
 	}
 	
 	public void run() {
-		while(!toSend.isEmpty()) {
-			Pair<String,String> pair = toSend.poll();
-			MsgSendError msgStatus = server.processMessage(username, pair.fst, pair.snd);
-			// Do something with message send error
-		}
-		while(!toRecv.isEmpty()) {
-			Message msg = toRecv.poll();
-			logRecvMsg(msg);
-			msgReceived(msg.getContent());
+		while(true){
+			sendLock.writeLock().lock();
+			if(!toSend.isEmpty()) {
+				Pair<String,String> pair = toSend.poll();
+				MsgSendError msgStatus = server.processMessage(username, pair.fst, pair.snd);
+				// Do something with message send error
+			}
+			sendLock.writeLock().unlock();
+			recvLock.writeLock().lock();
+			if(!toRecv.isEmpty()) {
+				Message msg = toRecv.poll();
+				logRecvMsg(msg);
+				msgReceived(msg.getContent());
+			}
+			recvLock.writeLock().unlock();
 		}
 	}
 	
