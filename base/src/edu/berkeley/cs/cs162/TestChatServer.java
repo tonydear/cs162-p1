@@ -45,16 +45,6 @@ public class TestChatServer {
 		System.out.println("done \n");
 	}
 	
-	/**
-	 * Logs the events of a user logging into the ChatServer.  This should only be called AFTER
-	 * the user has been accepted by the ChatServer.
-	 *
-	 * @param username user logging the event.
-	 * @param time time of the event.
-	 */
-	public static void logUserLogin(String username, Date time){
-		
-	}
 
 	/**
 	 * Logs the events of a user logging into the ChatServer.  This should only be called AFTER
@@ -63,8 +53,18 @@ public class TestChatServer {
 	 * @param username user logging the event.
 	 * @param time time of the event.
 	 */
+	public static void logUserLogin(String username, Date time){
+	}
+
+	/**
+	 *  Logs a login-failed event.  Should be called AFTER you are certain that the user has been rejected by
+	 *  by the ChatServer.
+	 * 
+	 * @param username user logging the event.
+	 * @param time time of the event.
+	 * @param e login error
+	 */
 	public static void logUserLoginFailed(String username, Date time, LoginError e){
-		
 	}
 	
 	/**
@@ -75,19 +75,40 @@ public class TestChatServer {
 	 * @param time time of the event
 	 */
 	public static void logUserLogout(String username, Date time){
-		
 	}
+	
+	/**
+	 * Logs the events of a user logging into the group.  This should only be called AFTER
+	 * the user has been accepted by the group.
+	 *
+	 * @param groupname name of the group.
+	 * @param username user logging the event.
+	 * @param time time of the event.
+	 */
+	public static void logUserJoinGroup(String groupname, String username, Date time){
+	}
+	
+	/**
+	 * Logs the events of a user logging out of the group.
+	 *
+	 * @param groupname name of the group.
+	 * @param username user logging the event.
+	 * @param time time of the event.
+	 */
+	public static void logUserLeaveGroup(String groupname, String username, Date time){
+	}
+	
 	
 	/**
 	 * This should be called when the user attempts to send a message to the chat server 
 	 * (after the call is made).
 	 *
+	 * @param username the name of the user
 	 * @param msg the string representation of the message. 
 	 * 			SRC DST TIMESTAMP_UNIXTIME SQN
 	 * 		example: alice bob 1298489721 23
 	 */
-	public static void logUserSendMsg(String msg){
-		
+	public static void logUserSendMsg(String username, String msg){
 	}
 	
 	/**
@@ -100,18 +121,17 @@ public class TestChatServer {
 	 * @param time time when the event occurred.
 	 */
 	public static void logChatServerDropMsg(String msg, Date time){
-		
 	}
 	
 	/**
 	 * When the user receives a message, this method should be called.
 	 * 
+	 * @parapm username name of the user
 	 * @param msg string representation of the message.
 	 * 			SRC DST TIMESTAMP_UNIXTIME SQN
 	 * 		example: alice bob 1298489721 23
 	 * @param time time when the event occurred.
 	 */
-	public static void logUserMsgRecvd(String msg, Date time){
-		
+	public static void logUserMsgRecvd(String username, String msg, Date time){
 	}
 }
