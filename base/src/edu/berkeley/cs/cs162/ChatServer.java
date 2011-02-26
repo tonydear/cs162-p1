@@ -43,15 +43,19 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	@Override
 	public LoginError login(String username) {
 		lock.writeLock().lock();
-		if(isDown)
+		if(isDown){
+			TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_REJECTED);
 			return LoginError.USER_REJECTED;
+		}
 		if (allNames.contains(username)) {
 			lock.writeLock().unlock();
+			TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_REJECTED);
 			return LoginError.USER_REJECTED;
 		}
 		if (users.size() >= MAX_USERS) {
 			loginQueue.add(username);
 			lock.writeLock().unlock();
+			TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_DROPPED);
 			return LoginError.USER_DROPPED;
 		}
 		loginQueue.add(username);
@@ -61,6 +65,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		allNames.add(newUsername);
 		newUser.connected();
 		lock.writeLock().unlock();
+		TestChatServer.logUserLogin(newUsername, new Date());
 		return LoginError.USER_ACCEPTED;
 	}
 
@@ -80,6 +85,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		allNames.remove(username);
 		users.remove(username);
 		lock.writeLock().unlock();	
+		TestChatServer.logUserLogout(username, new Date());
 		return true;
 	}
 
@@ -94,6 +100,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 			group = groups.get(groupname);
 			success = group.joinGroup(user.getUsername(), user);
 			lock.writeLock().unlock();
+			TestChatServer.logUserJoinGroup(groupname, user.getUsername(), new Date());
 			return success;
 		}
 		else {

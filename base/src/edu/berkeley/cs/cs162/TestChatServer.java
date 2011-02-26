@@ -53,6 +53,7 @@ public class TestChatServer {
 	 * @param username user logging the event.
 	 * @param time time of the event.
 	 */
+	//done
 	public static void logUserLogin(String username, Date time){
 	}
 
@@ -64,6 +65,7 @@ public class TestChatServer {
 	 * @param time time of the event.
 	 * @param e login error
 	 */
+	//done
 	public static void logUserLoginFailed(String username, Date time, LoginError e){
 	}
 	
@@ -74,6 +76,7 @@ public class TestChatServer {
 	 * @param username user logging the event
 	 * @param time time of the event
 	 */
+	//done
 	public static void logUserLogout(String username, Date time){
 	}
 	
@@ -85,6 +88,7 @@ public class TestChatServer {
 	 * @param username user logging the event.
 	 * @param time time of the event.
 	 */
+	//done
 	public static void logUserJoinGroup(String groupname, String username, Date time){
 	}
 	
