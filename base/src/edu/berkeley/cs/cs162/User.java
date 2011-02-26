@@ -19,6 +19,7 @@ public class User extends BaseUser {
 	private Queue<Message> toRecv;
 	private Queue<Pair<String,String>> toSend;
 	private ReentrantReadWriteLock recvLock, sendLock;
+	private int sqn;
 	
 	public User(ChatServer server, String username) {
 		this.server = server;
@@ -29,6 +30,7 @@ public class User extends BaseUser {
 		toSend = new LinkedList<Pair<String,String>>();
 		recvLock = new ReentrantReadWriteLock(true);
 		sendLock = new ReentrantReadWriteLock(true);
+		sqn = 0;
 	}
 	
 	public void getGroups() { 
@@ -59,6 +61,8 @@ public class User extends BaseUser {
 	public void msgReceived(Message msg) {
 		recvLock.writeLock().lock();
 		toRecv.add(msg);		
+		msg.setSQN(sqn);
+		sqn++;
 		recvLock.writeLock().unlock();
 	}
 	
