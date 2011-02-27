@@ -27,7 +27,7 @@ public class TestChatServer {
 		BaseUser jay = s.getUser("jay");
 		s.joinGroup(bu, "group1");
 		s.joinGroup(jay, "group1");
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 10000; i++) {
 			MessageDeliveryTask t = new MessageDeliveryTask(s, "steve", "mike", "hi "+ i);
 			MessageDeliveryTask c = new MessageDeliveryTask(s, "steve", "group1", "hig "+ i);
 			exe.execute(t);
