@@ -46,7 +46,7 @@ public class ChatGroup {
 		return true;
 	}
 	
-	public boolean forwardMessage(Message msg) {
+	public synchronized boolean forwardMessage(Message msg) {
 		Collection<User> users = userlist.values();
 		Iterator<User> it = users.iterator();
 		User user;
