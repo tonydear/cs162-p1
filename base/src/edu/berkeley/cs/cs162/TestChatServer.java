@@ -33,6 +33,7 @@ public class TestChatServer {
 			exe.execute(c);
 		}
 		
+		
 		exe.shutdown();
 		try {
 			System.in.read();
