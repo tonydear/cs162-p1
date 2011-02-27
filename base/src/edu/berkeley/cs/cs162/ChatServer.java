@@ -159,7 +159,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	}
 	
 	public MsgSendError processMessage(String source, String dest, String msg, int sqn) {
-		Message message = new Message(Long.toString(System.currentTimeMillis()),dest, source, msg);
+		Message message = new Message(Long.toString(System.currentTimeMillis()),source, dest, msg);
 		message.setSQN(sqn);
 		lock.readLock().lock();
 		TestChatServer.logUserSendMsg(source, message.toString());
