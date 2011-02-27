@@ -66,7 +66,7 @@ public class User extends BaseUser {
 	}
 	
 	public void msgReceived(String msg) {
-		System.out.println(username + " received the message: " + msg);
+		System.out.println(msg);
 	}
 	
 	public void run() {
@@ -83,8 +83,10 @@ public class User extends BaseUser {
 			if(!toRecv.isEmpty()) {
 				Message msg = toRecv.poll();
 				logRecvMsg(msg);
-				msgReceived(msg.getContent());
-				TestChatServer.logUserMsgRecvd(username, msg.getContent(), new Date());
+				if(!msg.getSource().equals(username)){ //only if not from self
+					TestChatServer.logUserMsgRecvd(username, msg.getContent(), new Date());
+					msgReceived(msg.toString());
+				}
 			}
 			recvLock.writeLock().unlock();
 		}
