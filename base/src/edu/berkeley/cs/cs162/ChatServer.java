@@ -161,8 +161,8 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	public MsgSendError processMessage(String source, String dest, String msg, int sqn) {
 		Message message = new Message(Long.toString(System.currentTimeMillis()),dest, source, msg);
 		message.setSQN(sqn);
-		TestChatServer.logUserSendMsg(source, message.toString());
 		lock.readLock().lock();
+		TestChatServer.logUserSendMsg(source, message.toString());
 		if (users.containsKey(source)) {
 			if(users.containsKey(dest)) {
 				User destUser = users.get(dest);
