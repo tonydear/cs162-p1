@@ -66,7 +66,7 @@ public class User extends BaseUser {
 	}
 	
 	public void msgReceived(String msg) {
-		System.out.println(username + " received the message: " + msg);
+		System.out.println(msg);
 	}
 	
 	public void run() {
@@ -83,7 +83,7 @@ public class User extends BaseUser {
 			if(!toRecv.isEmpty()) {
 				Message msg = toRecv.poll();
 				logRecvMsg(msg);
-				msgReceived(msg.getContent());
+				msgReceived(msg.toString());
 				TestChatServer.logUserMsgRecvd(username, msg.getContent(), new Date());
 			}
 			recvLock.writeLock().unlock();
