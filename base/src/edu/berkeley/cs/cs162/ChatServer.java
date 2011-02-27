@@ -27,7 +27,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	private Set<String> allNames;
 	private ReentrantReadWriteLock lock;
 	private boolean isDown;
-	private final static int MAX_USERS = 100;
+	private final static int MAX_USERS = 100, MAX_WAITING = 10;
 	private Queue<String> loginQueue;
 	
 	public ChatServer() {
@@ -39,7 +39,6 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		loginQueue = new LinkedList<String>();
 	}
 	
-	//Not sure if this is the right way to add queue because ChatServer isn't a thread and there's no loop that processes the queue (it only pops off queue when another user tries to login)
 	@Override
 	public LoginError login(String username) {
 		lock.writeLock().lock();
@@ -52,20 +51,24 @@ public class ChatServer extends Thread implements ChatServerInterface {
 			TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_REJECTED);
 			return LoginError.USER_REJECTED;
 		}
-		if (users.size() >= MAX_USERS) {
+		if (users.size() >= MAX_USERS || !loginQueue.isEmpty()) {
+			if(loginQueue.size() == MAX_WAITING){
+				lock.writeLock().unlock();
+				TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_DROPPED);
+				return LoginError.USER_DROPPED;
+			}
 			loginQueue.add(username);
 			lock.writeLock().unlock();
-			TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_DROPPED);
-			return LoginError.USER_DROPPED;
+			TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_QUEUED);
+			return LoginError.USER_QUEUED;
 		}
-		loginQueue.add(username);
-		String newUsername = loginQueue.poll();
-		User newUser = new User(this, newUsername);
-		users.put(newUsername, newUser);
-		allNames.add(newUsername);
+	
+		User newUser = new User(this, username);
+		users.put(username, newUser);
+		allNames.add(username);
 		newUser.connected();
 		lock.writeLock().unlock();
-		TestChatServer.logUserLogin(newUsername, new Date());
+		TestChatServer.logUserLogin(username, new Date());
 		return LoginError.USER_ACCEPTED;
 	}
 
@@ -189,5 +192,14 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	
 	public MsgSendError processMessage(String source, String dest, String msg) {
 		return processMessage(source,dest,msg,0);
+	}
+	
+	@Override
+	public void run(){
+		while(!isDown){
+			if(!loginQueue.isEmpty()){
+				login(loginQueue.poll());
+			}
+		}
 	}
 }
