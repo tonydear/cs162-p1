@@ -58,7 +58,7 @@ public class ChatGroup {
 		User user;
 		while(it.hasNext()) {
 			user = it.next();
-			user.msgReceived(msg);
+			user.enqueueMsg(msg);
 		}
 		return true;
 	}

@@ -3,10 +3,10 @@ package edu.berkeley.cs.cs162;
 public class Message {
 	private String timestamp;
 	private String source;
-	private String chatgroup;
 	private String dest;
 	private String content;
 	private int sqn;
+	private boolean isFromGroup = false;
 	
 	public Message(String timestamp, String source, String dest, String content) {
 		this.timestamp = timestamp;
@@ -16,17 +16,12 @@ public class Message {
 		sqn = 0;
 	}
 	
-	public Message(String timestamp, String source, String dest, String chatgroup, String content) {
-		this.timestamp = timestamp;
-		this.source = source;
-		this.chatgroup = chatgroup;
-		this.dest = dest;
-		this.content = content;
-		sqn = 0;
-	}
-	
 	public void setSQN(int num){
 		sqn = num;
+	}
+	
+	public void setIsFromGroup() {
+		isFromGroup = true;
 	}
 	
 	public String getTimestamp() {
@@ -41,12 +36,12 @@ public class Message {
 		return dest;
 	}
 	
-	public String getGroup() {
-		return chatgroup;
-	}
-	
 	public String getContent() {
 		return content;
+	}
+	
+	public boolean isFromGroup() {
+		return isFromGroup;
 	}
 	
 	/**
@@ -54,7 +49,7 @@ public class Message {
 	 */
 	
 	public String toString(){
-		return source + " " + dest + " " + chatgroup + " " + timestamp + " " + sqn;
+		return source + " " + dest + " " + timestamp + " " + sqn;
 	}
 	
 }

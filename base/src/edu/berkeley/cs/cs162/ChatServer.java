@@ -4,10 +4,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -42,6 +40,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		lock.writeLock().lock();
 		if(isDown){
 			TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_REJECTED);
+			lock.writeLock().unlock();
 			return LoginError.USER_REJECTED;
 		}
 		if (allNames.contains(username)) {
@@ -54,7 +53,6 @@ public class ChatServer extends Thread implements ChatServerInterface {
 			TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_DROPPED);
 			return LoginError.USER_DROPPED;
 		}
-	
 		User newUser = new User(this, username);
 		users.put(username, newUser);
 		allNames.add(username);
@@ -77,6 +75,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		while(it.hasNext()){
 			groups.get(it.next()).leaveGroup(username);
 		}
+		users.get(username).logoff();
 		allNames.remove(username);
 		users.remove(username);
 		lock.writeLock().unlock();	
@@ -130,6 +129,10 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	@Override
 	public void shutdown() {
 		lock.writeLock().lock();
+		Set<String> userNames = users.keySet();
+		for(String name: userNames){
+			users.get(name).logoff();
+		}
 		users.clear();
 		groups.clear();
 		isDown = true;
@@ -185,45 +188,38 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		return num;
 	}
 	
-	public MsgSendError processMessage(String source, String dest, String msg, int sqn) {
-		Message message = new Message(Long.toString(System.currentTimeMillis()),source, dest, msg);
+	public MsgSendError processMessage(String source, String dest, String msg, int sqn) {	
+		Message message = new Message(Long.toString(System.currentTimeMillis()), source, dest, msg);
 		message.setSQN(sqn);
 		lock.readLock().lock();
 		TestChatServer.logUserSendMsg(source, message.toString());
+		
 		if (users.containsKey(source)) {
-			if(users.containsKey(dest)) {
+			if (users.containsKey(dest)) {
 				User destUser = users.get(dest);
-				User sourceUser = users.get(source);
-				destUser.msgReceived(message);
-				sourceUser.msgReceived(message);
-			} else if(groups.containsKey(dest)) {
+				destUser.enqueueMsg(message);
+			} else if (groups.containsKey(dest)) {
+				message.setIsFromGroup();
 				ChatGroup group = groups.get(dest);
 				if (!group.forwardMessage(message)) {
 					lock.readLock().unlock();
 					TestChatServer.logChatServerDropMsg(message.toString(), new Date());
 					return MsgSendError.NOT_IN_GROUP;
 				}
+				
 			} else {
 				lock.readLock().unlock();
 				TestChatServer.logChatServerDropMsg(message.toString(), new Date());
 				return MsgSendError.INVALID_DEST;
 			}
+			
 		} else {
 			lock.readLock().unlock();
 			TestChatServer.logChatServerDropMsg(message.toString(), new Date());
 			return MsgSendError.INVALID_SOURCE;
 		}
+		
 		lock.readLock().unlock();
 		return MsgSendError.MESSAGE_SENT;
-	}
-	
-	public MsgSendError processMessage(String source, String dest, String msg) {
-		return processMessage(source,dest,msg,0);
-	}
-	
-	@Override
-	public void run(){
-		while(!isDown){
-		}
 	}
 }

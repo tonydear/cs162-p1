@@ -19,6 +19,7 @@ public class User extends BaseUser {
 	private Queue<MessageJob> toSend;
 	private ReentrantReadWriteLock recvLock, sendLock;
 	private int sqn;
+	private boolean loggedOff;
 	
 	public User(ChatServer server, String username) {
 		this.server = server;
@@ -32,14 +33,22 @@ public class User extends BaseUser {
 		sqn = 0;
 	}
 	
-	public void getGroups() { 
+	public void getAllGroups() { 
 		Set<String> groups = server.getGroups();
 		// Do something with group list
 	}
 	
-	public void getUsers() {
+	public void getAllUsers() {
 		Set<String> users = server.getUsers();
 		// Do something with users list
+	}
+	
+	public int getNumGroups() {
+		return server.getNumGroups();
+	}
+	
+	public int getNumUsers() {
+		return server.getNumUsers();
 	}
 	
 	public List<String> getUserGroups() {
@@ -50,6 +59,13 @@ public class User extends BaseUser {
 		return username;
 	}
 	
+	public ChatLog getLog(String name){
+		if(chatlogs.containsKey(name)){
+			return chatlogs.get(name);
+		}
+		return null;
+	}
+	
 	public void send(String dest, String msg) {
 		MessageJob pair = new MessageJob(dest, msg);
 		sendLock.writeLock().lock();
@@ -57,7 +73,7 @@ public class User extends BaseUser {
 		sendLock.writeLock().unlock();
 	}
 	
-	public void msgReceived(Message msg) {
+	public void enqueueMsg(Message msg) {
 		recvLock.writeLock().lock();
 		toRecv.add(msg);	
 		recvLock.writeLock().unlock();
@@ -66,6 +82,34 @@ public class User extends BaseUser {
 	@Override
 	public void msgReceived(String msg) {
 		System.out.println(username + " received: " + msg);
+	}
+
+	private void logRecvMsg(Message msg) {
+		// Add to chatlog
+		ChatLog log;
+		String reference;
+		
+		if (msg.isFromGroup())
+			reference = msg.getDest();
+		else
+			reference = msg.getSource();
+
+		if (chatlogs.containsKey(reference))
+			log = chatlogs.get(reference);
+		else {
+			if (msg.isFromGroup())
+				log = new ChatLog(msg.getSource(), this, msg.getDest());
+			else
+				log = new ChatLog(msg.getSource(), this);
+			
+			chatlogs.put(reference, log);
+		}
+		
+		log.add(msg);
+	}
+	
+	public void logoff(){
+		loggedOff = true;
 	}
 	
 	public void run() {
@@ -92,38 +136,4 @@ public class User extends BaseUser {
 			recvLock.writeLock().unlock();
 		}
 	}
-	
-	private void logRecvMsg(Message msg) {
-		// Add to chatlog
-		System.out.println("logging message for user: " + username);
-		boolean isGroup = true;
-		String reference = msg.getGroup();
-		if (reference == null) {
-			isGroup = false;
-			reference = msg.getSource();
-		}
-		ChatLog log;
-		if (chatlogs.containsKey(reference)) {
-			log = chatlogs.get(reference);
-		} else {
-			if (isGroup)
-				log = new ChatLog(msg.getSource(), this, msg.getGroup());
-			else
-				log = new ChatLog(msg.getSource(), this);
-			chatlogs.put(reference, log);
-		}
-		log.add(msg);
-	}
-	
-	public ChatLog getLog(String name){
-		if(chatlogs.containsKey(name)){
-			return chatlogs.get(name);
-		}
-		return null;
-	}
-	
-	public Map<String, ChatLog> getLogs() {
-		return chatlogs;
-	}
-	
 }

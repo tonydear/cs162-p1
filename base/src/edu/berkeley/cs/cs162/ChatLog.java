@@ -28,12 +28,8 @@ public class ChatLog {
 		return log;
 	}
 	
-	public User getUser() {
+	public BaseUser getUser() {
 		return user;
-	}
-	
-	public void add(Message message) { 
-		log.add(message);
 	}
 	
 	public String getSource() { 
@@ -44,8 +40,19 @@ public class ChatLog {
 		return chatgroup;
 	}
 	
+	public void add(Message message) { 
+		log.add(message);
+	}
+	
 	public String toString() {
 		String ret = new String();
+		
+		if (chatgroup != null) {
+			ret.concat("ChatGroup: ");
+			ret.concat(chatgroup);
+			ret.concat("\n");
+		}
+		
 		ret.concat("User: ");
 		ret.concat(user.toString());
 		ret.concat("\n");
@@ -65,5 +72,7 @@ public class ChatLog {
 		return ret;
 	}
 	
-	
+	public List<Message> getMessages(){
+		return log;
+	}
 }
