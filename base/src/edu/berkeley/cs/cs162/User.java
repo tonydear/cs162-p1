@@ -63,6 +63,7 @@ public class User extends BaseUser {
 		recvLock.writeLock().unlock();
 	}
 	
+	@Override
 	public void msgReceived(String msg) {
 		System.out.println(username + " received: " + msg);
 	}
@@ -82,7 +83,7 @@ public class User extends BaseUser {
 				Message msg = toRecv.poll();
 				logRecvMsg(msg);
 				if(!msg.getSource().equals(username)){ //only if not from self
-					TestChatServer.logUserMsgRecvd(username, msg.getContent(), new Date());
+					TestChatServer.logUserMsgRecvd(username, msg.toString(), new Date());
 				}
 				msgReceived(msg.toString());
 			}
@@ -109,6 +110,13 @@ public class User extends BaseUser {
 			chatlogs.put(reference, log);
 		}
 		log.add(msg);
+	}
+	
+	public ChatLog getLog(String name){
+		if(chatlogs.containsKey(name)){
+			return chatlogs.get(name);
+		}
+		return null;
 	}
 	
 }
