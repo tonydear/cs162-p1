@@ -129,6 +129,10 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	@Override
 	public void shutdown() {
 		lock.writeLock().lock();
+		Set<String> userNames = users.keySet();
+		for(String name: userNames){
+			users.get(name).logoff();
+		}
 		users.clear();
 		groups.clear();
 		isDown = true;
