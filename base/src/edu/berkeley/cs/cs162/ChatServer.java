@@ -75,6 +75,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		while(it.hasNext()){
 			groups.get(it.next()).leaveGroup(username);
 		}
+		users.get(username).logoff();
 		allNames.remove(username);
 		users.remove(username);
 		lock.writeLock().unlock();	
@@ -128,6 +129,10 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	@Override
 	public void shutdown() {
 		lock.writeLock().lock();
+		Set<String> userNames = users.keySet();
+		for(String name: userNames){
+			users.get(name).logoff();
+		}
 		users.clear();
 		groups.clear();
 		isDown = true;

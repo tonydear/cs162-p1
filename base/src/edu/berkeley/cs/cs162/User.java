@@ -19,6 +19,7 @@ public class User extends BaseUser {
 	private Queue<MessageJob> toSend;
 	private ReentrantReadWriteLock recvLock, sendLock;
 	private int sqn;
+	private boolean loggedOff;
 	
 	public User(ChatServer server, String username) {
 		this.server = server;
@@ -40,6 +41,14 @@ public class User extends BaseUser {
 	public void getAllUsers() {
 		Set<String> users = server.getUsers();
 		// Do something with users list
+	}
+	
+	public int getNumGroups() {
+		return server.getNumGroups();
+	}
+	
+	public int getNumUsers() {
+		return server.getNumUsers();
 	}
 	
 	public List<String> getUserGroups() {
@@ -74,7 +83,7 @@ public class User extends BaseUser {
 	public void msgReceived(String msg) {
 		System.out.println(username + " received: " + msg);
 	}
-	
+
 	private void logRecvMsg(Message msg) {
 		// Add to chatlog
 		ChatLog log;
@@ -97,6 +106,10 @@ public class User extends BaseUser {
 		}
 		
 		log.add(msg);
+	}
+	
+	public void logoff(){
+		loggedOff = true;
 	}
 	
 	public void run() {

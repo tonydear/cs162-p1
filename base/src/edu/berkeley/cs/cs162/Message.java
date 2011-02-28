@@ -20,6 +20,10 @@ public class Message {
 		sqn = num;
 	}
 	
+	public void setIsFromGroup() {
+		isFromGroup = true;
+	}
+	
 	public String getTimestamp() {
 		return timestamp;
 	}
@@ -34,10 +38,6 @@ public class Message {
 	
 	public String getContent() {
 		return content;
-	}
-	
-	public void setIsFromGroup() {
-		isFromGroup = true;
 	}
 	
 	public boolean isFromGroup() {
