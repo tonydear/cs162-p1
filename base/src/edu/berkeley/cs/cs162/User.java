@@ -19,6 +19,7 @@ public class User extends BaseUser {
 	private Queue<MessageJob> toSend;
 	private ReentrantReadWriteLock recvLock, sendLock;
 	private int sqn;
+	private boolean loggedOff;
 	
 	public User(ChatServer server, String username) {
 		this.server = server;
@@ -69,7 +70,8 @@ public class User extends BaseUser {
 	}
 	
 	public void run() {
-		while(true){
+		loggedOff = false;
+		while(!loggedOff){
 			sendLock.writeLock().lock();
 			if(!toSend.isEmpty()) {
 				MessageJob pair = toSend.poll();
@@ -120,6 +122,10 @@ public class User extends BaseUser {
 			return chatlogs.get(name);
 		}
 		return null;
+	}
+	
+	public void logoff(){
+		loggedOff = true;
 	}
 	
 }
