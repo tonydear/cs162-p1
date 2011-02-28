@@ -1,4 +1,3 @@
-import junit.framework.TestCase;
 import edu.berkeley.cs.cs162.*;
 import org.junit.*;
 import static org.junit.Assert.* ;
