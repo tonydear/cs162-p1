@@ -32,12 +32,12 @@ public class User extends BaseUser {
 		sqn = 0;
 	}
 	
-	public void getGroups() { 
+	public void getAllGroups() { 
 		Set<String> groups = server.getGroups();
 		// Do something with group list
 	}
 	
-	public void getUsers() {
+	public void getAllUsers() {
 		Set<String> users = server.getUsers();
 		// Do something with users list
 	}
@@ -57,7 +57,7 @@ public class User extends BaseUser {
 		sendLock.writeLock().unlock();
 	}
 	
-	public void msgReceived(Message msg) {
+	public void enqueueMsg(Message msg) {
 		recvLock.writeLock().lock();
 		toRecv.add(msg);	
 		recvLock.writeLock().unlock();
