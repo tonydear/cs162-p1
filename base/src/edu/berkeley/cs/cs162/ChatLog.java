@@ -71,4 +71,8 @@ public class ChatLog {
 		
 		return ret;
 	}
+	
+	public List<Message> getMessages(){
+		return log;
+	}
 }
