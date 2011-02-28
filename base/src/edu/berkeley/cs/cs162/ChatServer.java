@@ -98,8 +98,10 @@ public class ChatServer extends Thread implements ChatServerInterface {
 			return success;
 		}
 		else {
-			if(allNames.contains(groupname))
+			if(allNames.contains(groupname)){
+				lock.writeLock().unlock();
 				return success;
+			}
 			group = new ChatGroup(groupname);
 			groups.put(groupname, group);
 			success = group.joinGroup(user.getUsername(), user);
@@ -112,10 +114,12 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	public boolean leaveGroup(BaseUser baseUser, String groupname) {
 		// TODO Auto-generated method stub
 		User user = (User) baseUser;
-		ChatGroup group = groups.get(groupname);
-		if (group == null)
-			return false;
 		lock.writeLock().lock();
+		ChatGroup group = groups.get(groupname);
+		if (group == null){
+			lock.writeLock().unlock();
+			return false;
+		}
 		if(group.leaveGroup(user.getUsername())) {
 			if(group.getNumUsers() <= 0) { groups.remove(groupname); }
 			lock.writeLock().unlock();
