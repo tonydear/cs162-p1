@@ -197,7 +197,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		if (users.containsKey(source)) {
 			if (users.containsKey(dest)) {
 				User destUser = users.get(dest);
-				destUser.msgReceived(message);
+				destUser.enqueueMsg(message);
 			} else if (groups.containsKey(dest)) {
 				message.setIsFromGroup();
 				ChatGroup group = groups.get(dest);
@@ -221,9 +221,5 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		
 		lock.readLock().unlock();
 		return MsgSendError.MESSAGE_SENT;
-	}
-	
-	public MsgSendError processMessage(String source, String dest, String msg) {
-		return processMessage(source,dest,msg,0);
 	}
 }

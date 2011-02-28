@@ -33,12 +33,12 @@ public class User extends BaseUser {
 		sqn = 0;
 	}
 	
-	public void getGroups() { 
+	public void getAllGroups() { 
 		Set<String> groups = server.getGroups();
 		// Do something with group list
 	}
 	
-	public void getUsers() {
+	public void getAllUsers() {
 		Set<String> users = server.getUsers();
 		// Do something with users list
 	}
@@ -59,6 +59,13 @@ public class User extends BaseUser {
 		return username;
 	}
 	
+	public ChatLog getLog(String name){
+		if(chatlogs.containsKey(name)){
+			return chatlogs.get(name);
+		}
+		return null;
+	}
+	
 	public void send(String dest, String msg) {
 		MessageJob pair = new MessageJob(dest, msg);
 		sendLock.writeLock().lock();
@@ -66,7 +73,7 @@ public class User extends BaseUser {
 		sendLock.writeLock().unlock();
 	}
 	
-	public void msgReceived(Message msg) {
+	public void enqueueMsg(Message msg) {
 		recvLock.writeLock().lock();
 		toRecv.add(msg);	
 		recvLock.writeLock().unlock();
@@ -76,31 +83,7 @@ public class User extends BaseUser {
 	public void msgReceived(String msg) {
 		System.out.println(username + " received: " + msg);
 	}
-	
-	public void run() {
-		loggedOff = false;
-		while(!loggedOff){
-			sendLock.writeLock().lock();
-			if(!toSend.isEmpty()) {
-				MessageJob pair = toSend.poll();
-				MsgSendError msgStatus = server.processMessage(username, pair.dest, pair.msg, sqn);
-				sqn++;
-				// Do something with message send error
-			}
-			sendLock.writeLock().unlock();
-			recvLock.writeLock().lock();
-			if(!toRecv.isEmpty()) {
-				Message msg = toRecv.poll();
-				logRecvMsg(msg);
-				if(!msg.getSource().equals(username)){ //only if not from self
-					TestChatServer.logUserMsgRecvd(username, msg.toString(), new Date());
-				}
-				msgReceived(msg.toString());
-			}
-			recvLock.writeLock().unlock();
-		}
-	}
-	
+
 	private void logRecvMsg(Message msg) {
 		// Add to chatlog
 		ChatLog log;
@@ -125,15 +108,31 @@ public class User extends BaseUser {
 		log.add(msg);
 	}
 	
-	public ChatLog getLog(String name){
-		if(chatlogs.containsKey(name)){
-			return chatlogs.get(name);
-		}
-		return null;
-	}
-	
 	public void logoff(){
 		loggedOff = true;
+	}
+	
+	public void run() {
+		while(true){
+			sendLock.writeLock().lock();
+			if(!toSend.isEmpty()) {
+				MessageJob pair = toSend.poll();
+				MsgSendError msgStatus = server.processMessage(username, pair.dest, pair.msg, sqn);
+				sqn++;
+				// Do something with message send error
+			}
+			sendLock.writeLock().unlock();
+			recvLock.writeLock().lock();
+			if(!toRecv.isEmpty()) {
+				Message msg = toRecv.poll();
+				logRecvMsg(msg);
+				if(!msg.getSource().equals(username)){ //only if not from self
+					TestChatServer.logUserMsgRecvd(username, msg.toString(), new Date());
+				}
+				msgReceived(msg.toString());
+			}
+			recvLock.writeLock().unlock();
+		}
 	}
 	
 }
