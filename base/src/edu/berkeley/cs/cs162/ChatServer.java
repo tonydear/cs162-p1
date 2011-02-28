@@ -75,6 +75,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		while(it.hasNext()){
 			groups.get(it.next()).leaveGroup(username);
 		}
+		users.get(username).logoff();
 		allNames.remove(username);
 		users.remove(username);
 		lock.writeLock().unlock();	
