@@ -122,6 +122,8 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		// TODO Auto-generated method stub
 		User user = (User) baseUser;
 		ChatGroup group = groups.get(groupname);
+		if (group == null)
+			return false;
 		lock.writeLock().lock();
 		if(group.leaveGroup(user.getUsername())) {
 			if(group.getNumUsers() <= 0) { groups.remove(groupname); }
@@ -159,7 +161,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	}
 	
 	public MsgSendError processMessage(String source, String dest, String msg, int sqn) {
-		Message message = new Message(Long.toString(System.currentTimeMillis()),dest, source, msg);
+		Message message = new Message(Long.toString(System.currentTimeMillis()),source, dest, msg);
 		message.setSQN(sqn);
 		lock.readLock().lock();
 		TestChatServer.logUserSendMsg(source, message.toString());

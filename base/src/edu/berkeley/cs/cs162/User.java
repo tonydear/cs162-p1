@@ -9,8 +9,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import com.sun.tools.javac.util.Pair;
-
 public class User extends BaseUser {
 	
 	private ChatServer server;
@@ -18,7 +16,7 @@ public class User extends BaseUser {
 	private List<String> groupsJoined;
 	private Map<String, ChatLog> chatlogs;
 	private Queue<Message> toRecv;
-	private Queue<Pair<String,String>> toSend;
+	private Queue<MessageJob> toSend;
 	private ReentrantReadWriteLock recvLock, sendLock;
 	private int sqn;
 	
@@ -28,7 +26,7 @@ public class User extends BaseUser {
 		groupsJoined = new LinkedList<String>();
 		chatlogs = new HashMap<String, ChatLog>();
 		toRecv = new LinkedList<Message>();
-		toSend = new LinkedList<Pair<String,String>>();
+		toSend = new LinkedList<MessageJob>();
 		recvLock = new ReentrantReadWriteLock(true);
 		sendLock = new ReentrantReadWriteLock(true);
 		sqn = 0;
@@ -53,7 +51,7 @@ public class User extends BaseUser {
 	}
 	
 	public void send(String dest, String msg) {
-		Pair<String,String> pair = new Pair<String,String>(dest, msg);
+		MessageJob pair = new MessageJob(dest, msg);
 		sendLock.writeLock().lock();
 		toSend.add(pair);
 		sendLock.writeLock().unlock();
@@ -65,16 +63,17 @@ public class User extends BaseUser {
 		recvLock.writeLock().unlock();
 	}
 	
+	@Override
 	public void msgReceived(String msg) {
-		System.out.println(msg);
+		System.out.println(username + " received: " + msg);
 	}
 	
 	public void run() {
 		while(true){
 			sendLock.writeLock().lock();
 			if(!toSend.isEmpty()) {
-				Pair<String,String> pair = toSend.poll();
-				MsgSendError msgStatus = server.processMessage(username, pair.fst, pair.snd, sqn);
+				MessageJob pair = toSend.poll();
+				MsgSendError msgStatus = server.processMessage(username, pair.dest, pair.msg, sqn);
 				sqn++;
 				// Do something with message send error
 			}
@@ -84,9 +83,9 @@ public class User extends BaseUser {
 				Message msg = toRecv.poll();
 				logRecvMsg(msg);
 				if(!msg.getSource().equals(username)){ //only if not from self
-					TestChatServer.logUserMsgRecvd(username, msg.getContent(), new Date());
-					msgReceived(msg.toString());
+					TestChatServer.logUserMsgRecvd(username, msg.toString(), new Date());
 				}
+				msgReceived(msg.toString());
 			}
 			recvLock.writeLock().unlock();
 		}
@@ -103,6 +102,13 @@ public class User extends BaseUser {
 			chatlogs.put(msg.getSource(), log);
 		}
 		log.add(msg);
+	}
+	
+	public ChatLog getLog(String name){
+		if(chatlogs.containsKey(name)){
+			return chatlogs.get(name);
+		}
+		return null;
 	}
 	
 }
