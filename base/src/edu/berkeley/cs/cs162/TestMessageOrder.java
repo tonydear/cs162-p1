@@ -1,6 +1,8 @@
 package edu.berkeley.cs.cs162;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Map;
 import java.util.Set;
 
 public class TestMessageOrder {
@@ -9,9 +11,7 @@ public class TestMessageOrder {
 		server = new ChatServer();
 		server.start();
 		basicChatGroupTest();
-		System.out.println("u called shutdown");
 		server.shutdown();
-		System.out.println("shutted down");
 	}
 	
 	/**USE: press enter after receiving message printing stop
@@ -71,6 +71,39 @@ public class TestMessageOrder {
 			System.out.println("size matches: " + count);
 		else
 			System.out.println("size doesn't match: " + count + size);
+	}
+	
+	/**
+	 * consistency = for every group log both a and b have, one log is a 
+	 * subsequence of messages of the other
+	 * @param a
+	 * @param b
+	 */
+	public static boolean testConsistency(User a, User b){
+		Set<String> aLogs = a.getLogs().keySet();
+		Set<String> bLogs = b.getLogs().keySet();
+		for(String s: aLogs){
+			if(bLogs.contains(s)){
+				
+			}
+		}
+		return true;
+	}
+	
+	private static boolean isOneSubOfOther(LinkedList<Message> a, LinkedList<Message> b){
+		LinkedList<Message> small;
+		LinkedList<Message> big;
+		if(a.size()>b.size()){
+			big = a;
+			small = b;
+		}else{
+			big = b;
+			small = a;
+		}
+		
+		Message next = big.getFirst();
+		
+		return true;
 	}
 
 }

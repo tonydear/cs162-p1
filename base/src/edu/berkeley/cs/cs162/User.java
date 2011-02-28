@@ -19,7 +19,7 @@ public class User extends BaseUser {
 	private Queue<MessageJob> toSend;
 	private ReentrantReadWriteLock recvLock, sendLock;
 	private int sqn;
-	private boolean loggedOff;
+	private volatile boolean loggedOff;
 	
 	public User(ChatServer server, String username) {
 		this.server = server;

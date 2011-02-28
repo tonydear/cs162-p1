@@ -24,7 +24,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	private Map<String, ChatGroup> groups;
 	private Set<String> allNames;
 	private ReentrantReadWriteLock lock;
-	private boolean isDown;
+	private volatile boolean isDown;
 	private final static int MAX_USERS = 100;
 	
 	public ChatServer() {
@@ -225,5 +225,13 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		
 		lock.readLock().unlock();
 		return MsgSendError.MESSAGE_SENT;
+	}
+	
+	@Override
+	public void run(){
+		System.out.println("Server started.");
+		while(!isDown){
+		}
+		System.out.println("Server down.");
 	}
 }
