@@ -70,6 +70,10 @@ public class User extends BaseUser {
 		return chatlogs;
 	}
 	
+	public String toString(){
+		return username;
+	}
+	
 	public void send(String dest, String msg) {
 		MessageJob pair = new MessageJob(dest, msg);
 		sendLock.writeLock().lock();

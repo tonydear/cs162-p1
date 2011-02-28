@@ -52,26 +52,28 @@ public class ChatLog {
 		String ret = new String();
 		
 		if (chatgroup != null) {
-			ret.concat("ChatGroup: ");
-			ret.concat(chatgroup);
-			ret.concat("\n");
+			ret = ret.concat("ChatGroup: ");
+			ret = ret.concat(chatgroup);
+			ret = ret.concat("\n");
 		}
 		
-		ret.concat("User: ");
-		ret.concat(user.toString());
-		ret.concat("\n");
-		ret.concat("Source: ");
-		ret.concat(source);
-		ret.concat("\n");
+		ret = ret.concat("User: ");
+		ret = ret.concat(user.toString());
+		ret = ret.concat("\n");
+		ret = ret.concat("Source: ");
+		ret = ret.concat(source);
+		ret = ret.concat("\n");
 		
 		Iterator<Message> iter = log.iterator();
 		while (iter.hasNext()) {
 			Message msg = iter.next();
-			ret.concat(msg.getTimestamp());
-			ret.concat(": ");
-			ret.concat(msg.getContent());
-			ret.concat("\n");
+			ret = ret.concat(msg.getTimestamp());
+			ret = ret.concat(": ");
+			ret = ret.concat(msg.getContent());
+			ret = ret.concat("\n");
 		}
+		
+		System.out.println("IM: " + ret);
 		
 		return ret;
 	}
