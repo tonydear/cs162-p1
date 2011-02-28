@@ -76,4 +76,25 @@ public class ChatLog {
 		
 		return ret;
 	}
+	
+	public boolean isSubLog(ChatLog chatLog) {
+		boolean isSub = false;
+		String match = chatLog.getLog().get(0).toString();
+		Iterator<Message> iter = log.iterator();
+		while(iter.hasNext()) {
+			Message test = iter.next();
+			if(test.toString().equals(match)) {
+				isSub = true;
+				for(Message head : chatLog.getLog()) {
+					if(!iter.hasNext() || !head.toString().equals(test.toString())) {
+						isSub = false;
+						break;
+					}
+					test = iter.next();
+				}
+				break;
+			}
+		}
+		return isSub;
+	}
 }
