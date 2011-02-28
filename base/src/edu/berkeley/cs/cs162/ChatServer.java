@@ -27,8 +27,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	private Set<String> allNames;
 	private ReentrantReadWriteLock lock;
 	private boolean isDown;
-	private final static int MAX_USERS = 100, MAX_WAITING = 10;
-	private Queue<String> loginQueue;
+	private final static int MAX_USERS = 100;
 	
 	public ChatServer() {
 		users = new HashMap<String, User>();
@@ -36,7 +35,6 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		allNames = new HashSet<String>();
 		lock = new ReentrantReadWriteLock(true);
 		isDown = false;
-		loginQueue = new LinkedList<String>();
 	}
 	
 	@Override
@@ -51,16 +49,10 @@ public class ChatServer extends Thread implements ChatServerInterface {
 			TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_REJECTED);
 			return LoginError.USER_REJECTED;
 		}
-		if (users.size() >= MAX_USERS || !loginQueue.isEmpty()) {
-			if(loginQueue.size() == MAX_WAITING){
-				lock.writeLock().unlock();
-				TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_DROPPED);
-				return LoginError.USER_DROPPED;
-			}
-			loginQueue.add(username);
+		if (users.size() >= MAX_USERS) {
 			lock.writeLock().unlock();
-			TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_QUEUED);
-			return LoginError.USER_QUEUED;
+			TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_DROPPED);
+			return LoginError.USER_DROPPED;
 		}
 	
 		User newUser = new User(this, username);
@@ -146,18 +138,51 @@ public class ChatServer extends Thread implements ChatServerInterface {
 
 	@Override
 	public BaseUser getUser(String username) {
-		return users.get(username);
+		BaseUser u;
+		lock.readLock().lock();
+		u = users.get(username);
+		lock.readLock().unlock();
+		return u;
 	}
 	
 	public ChatGroup getGroup(String groupname) {
-		return groups.get(groupname);	}
+		ChatGroup group;
+		lock.readLock().lock();
+		group = groups.get(groupname);
+		lock.readLock().unlock();
+		return group;
+	}
 	
 	public Set<String> getGroups() {
-		return groups.keySet();
+		Set<String> groupNames;
+		lock.readLock().lock();
+		groupNames = this.groups.keySet();
+		lock.readLock().unlock();
+		return groupNames;
 	}
 	
 	public Set<String> getUsers() {
-		return users.keySet();
+		Set<String> userNames;
+		lock.readLock().lock();
+		userNames = users.keySet();
+		lock.readLock().unlock();
+		return userNames;
+	}
+	
+	public int getNumUsers(){
+		int num;
+		lock.readLock().lock();
+		num = users.size();
+		lock.readLock().unlock();
+		return num;
+	}
+	
+	public int getNumGroups(){
+		int num;
+		lock.readLock().lock();
+		num = groups.size();
+		lock.readLock().unlock();
+		return num;
 	}
 	
 	public MsgSendError processMessage(String source, String dest, String msg, int sqn) {
@@ -199,9 +224,6 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	@Override
 	public void run(){
 		while(!isDown){
-			if(!loginQueue.isEmpty()){
-				login(loginQueue.poll());
-			}
 		}
 	}
 }

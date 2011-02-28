@@ -3,6 +3,7 @@ package edu.berkeley.cs.cs162;
 public class Message {
 	private String timestamp;
 	private String source;
+	private String chatgroup;
 	private String dest;
 	private String content;
 	private int sqn;
@@ -10,6 +11,15 @@ public class Message {
 	public Message(String timestamp, String source, String dest, String content) {
 		this.timestamp = timestamp;
 		this.source = source;
+		this.dest = dest;
+		this.content = content;
+		sqn = 0;
+	}
+	
+	public Message(String timestamp, String source, String dest, String chatgroup, String content) {
+		this.timestamp = timestamp;
+		this.source = source;
+		this.chatgroup = chatgroup;
 		this.dest = dest;
 		this.content = content;
 		sqn = 0;
@@ -31,6 +41,10 @@ public class Message {
 		return dest;
 	}
 	
+	public String getGroup() {
+		return chatgroup;
+	}
+	
 	public String getContent() {
 		return content;
 	}
@@ -40,7 +54,7 @@ public class Message {
 	 */
 	
 	public String toString(){
-		return source + " " + dest + " " + timestamp + " " + sqn;
+		return source + " " + dest + " " + chatgroup + " " + timestamp + " " + sqn;
 	}
 	
 }
