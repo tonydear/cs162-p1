@@ -57,23 +57,22 @@ public class ChatLog {
 			ret = ret.concat("\n");
 		}
 		
-		ret = ret.concat("User: ");
+		/*ret = ret.concat("User: ");
 		ret = ret.concat(user.toString());
 		ret = ret.concat("\n");
 		ret = ret.concat("Source: ");
 		ret = ret.concat(source);
-		ret = ret.concat("\n");
+		ret = ret.concat("\n");*/
 		
 		Iterator<Message> iter = log.iterator();
 		while (iter.hasNext()) {
 			Message msg = iter.next();
+			ret = ret.concat("Source: " + msg.getSource() + "\n");
 			ret = ret.concat(msg.getTimestamp());
 			ret = ret.concat(": ");
 			ret = ret.concat(msg.getContent());
 			ret = ret.concat("\n");
 		}
-		
-		System.out.println("IM: " + ret);
 		
 		return ret;
 	}
