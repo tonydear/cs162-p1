@@ -42,6 +42,14 @@ public class User extends BaseUser {
 		// Do something with users list
 	}
 	
+	public int getNumGroups() {
+		return server.getNumGroups();
+	}
+	
+	public int getNumUsers() {
+		return server.getNumUsers();
+	}
+	
 	public List<String> getUserGroups() {
 		return groupsJoined;
 	}
