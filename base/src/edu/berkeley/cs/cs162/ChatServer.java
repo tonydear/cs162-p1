@@ -40,6 +40,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		lock.writeLock().lock();
 		if(isDown){
 			TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_REJECTED);
+			lock.writeLock().unlock();
 			return LoginError.USER_REJECTED;
 		}
 		if (allNames.contains(username)) {
@@ -52,7 +53,6 @@ public class ChatServer extends Thread implements ChatServerInterface {
 			TestChatServer.logUserLoginFailed(username, new Date(), LoginError.USER_DROPPED);
 			return LoginError.USER_DROPPED;
 		}
-	
 		User newUser = new User(this, username);
 		users.put(username, newUser);
 		allNames.add(username);
@@ -225,11 +225,5 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	
 	public MsgSendError processMessage(String source, String dest, String msg) {
 		return processMessage(source,dest,msg,0);
-	}
-	
-	@Override
-	public void run(){
-		while(!isDown){
-		}
 	}
 }
