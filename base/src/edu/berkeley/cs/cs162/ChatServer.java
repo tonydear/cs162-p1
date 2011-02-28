@@ -138,18 +138,51 @@ public class ChatServer extends Thread implements ChatServerInterface {
 
 	@Override
 	public BaseUser getUser(String username) {
-		return users.get(username);
+		BaseUser u;
+		lock.readLock().lock();
+		u = users.get(username);
+		lock.readLock().unlock();
+		return u;
 	}
 	
 	public ChatGroup getGroup(String groupname) {
-		return groups.get(groupname);	}
+		ChatGroup group;
+		lock.readLock().lock();
+		group = groups.get(groupname);
+		lock.readLock().unlock();
+		return group;
+	}
 	
 	public Set<String> getGroups() {
-		return groups.keySet();
+		Set<String> groupNames;
+		lock.readLock().lock();
+		groupNames = this.groups.keySet();
+		lock.readLock().unlock();
+		return groupNames;
 	}
 	
 	public Set<String> getUsers() {
-		return users.keySet();
+		Set<String> userNames;
+		lock.readLock().lock();
+		userNames = users.keySet();
+		lock.readLock().unlock();
+		return userNames;
+	}
+	
+	public int getNumUsers(){
+		int num;
+		lock.readLock().lock();
+		num = users.size();
+		lock.readLock().unlock();
+		return num;
+	}
+	
+	public int getNumGroups(){
+		int num;
+		lock.readLock().lock();
+		num = groups.size();
+		lock.readLock().unlock();
+		return num;
 	}
 	
 	public MsgSendError processMessage(String source, String dest, String msg, int sqn) {
