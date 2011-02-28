@@ -50,6 +50,13 @@ public class User extends BaseUser {
 		return username;
 	}
 	
+	public ChatLog getLog(String name){
+		if(chatlogs.containsKey(name)){
+			return chatlogs.get(name);
+		}
+		return null;
+	}
+	
 	public void send(String dest, String msg) {
 		MessageJob pair = new MessageJob(dest, msg);
 		sendLock.writeLock().lock();
@@ -66,29 +73,6 @@ public class User extends BaseUser {
 	@Override
 	public void msgReceived(String msg) {
 		System.out.println(username + " received: " + msg);
-	}
-	
-	public void run() {
-		while(true){
-			sendLock.writeLock().lock();
-			if(!toSend.isEmpty()) {
-				MessageJob pair = toSend.poll();
-				MsgSendError msgStatus = server.processMessage(username, pair.dest, pair.msg, sqn);
-				sqn++;
-				// Do something with message send error
-			}
-			sendLock.writeLock().unlock();
-			recvLock.writeLock().lock();
-			if(!toRecv.isEmpty()) {
-				Message msg = toRecv.poll();
-				logRecvMsg(msg);
-				if(!msg.getSource().equals(username)){ //only if not from self
-					TestChatServer.logUserMsgRecvd(username, msg.toString(), new Date());
-				}
-				msgReceived(msg.toString());
-			}
-			recvLock.writeLock().unlock();
-		}
 	}
 	
 	private void logRecvMsg(Message msg) {
@@ -115,11 +99,27 @@ public class User extends BaseUser {
 		log.add(msg);
 	}
 	
-	public ChatLog getLog(String name){
-		if(chatlogs.containsKey(name)){
-			return chatlogs.get(name);
+	public void run() {
+		while(true){
+			sendLock.writeLock().lock();
+			if(!toSend.isEmpty()) {
+				MessageJob pair = toSend.poll();
+				MsgSendError msgStatus = server.processMessage(username, pair.dest, pair.msg, sqn);
+				sqn++;
+				// Do something with message send error
+			}
+			sendLock.writeLock().unlock();
+			recvLock.writeLock().lock();
+			if(!toRecv.isEmpty()) {
+				Message msg = toRecv.poll();
+				logRecvMsg(msg);
+				if(!msg.getSource().equals(username)){ //only if not from self
+					TestChatServer.logUserMsgRecvd(username, msg.toString(), new Date());
+				}
+				msgReceived(msg.toString());
+			}
+			recvLock.writeLock().unlock();
 		}
-		return null;
 	}
 	
 }
