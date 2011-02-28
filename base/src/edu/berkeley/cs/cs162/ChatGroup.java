@@ -34,12 +34,12 @@ public class ChatGroup {
 		return true;
 	}
 	
-	public boolean joinGroup(String user, User userObj) {
+	public boolean joinGroup(String user, BaseUser userObj) {
 		if(userlist.containsKey(user))			//user already in group
 			return false;
 		if(userlist.size() + 1 > MAX_USERS)		//adding user would exceed capacity
 			return false;
-		userlist.put(user, userObj);			//add user to hashmap
+		userlist.put(user, (User)userObj);			//add user to hashmap
 		return true;
 	}
 	
@@ -51,7 +51,7 @@ public class ChatGroup {
 	}
 	
 	public synchronized boolean forwardMessage(Message msg) {
-		if (! userlist.containsValue(msg.getSource()))
+		if (! userlist.containsKey(msg.getSource()))
 			return false;
 		Collection<User> users = userlist.values();
 		Iterator<User> it = users.iterator();

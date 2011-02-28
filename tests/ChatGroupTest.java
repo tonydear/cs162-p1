@@ -1,13 +1,10 @@
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
 
 import edu.berkeley.cs.cs162.ChatServer;
-import junit.framework.TestCase;
 import edu.berkeley.cs.cs162.*;
 import org.junit.*;
 import static org.junit.Assert.* ;
@@ -98,18 +95,10 @@ public class ChatGroupTest {
 		Thread.sleep(4000);
 		User b = (User) server.getUser("B");
 		User c = (User) server.getUser("C");
-		ChatLog bLog = b.getLog("newGroup");
-		Map chatlogs = b.getLogs();
-		System.out.println(chatlogs.keySet());
-		System.out.println(bLog);
-		assertTrue(bLog != null);
-		assertTrue(bLog.getLog() != null);
-		//List<Message> messagesB = bLog.getLog();
-		//Message messageB = b.getLog("newGroup").getLog().get(0);
-		//Message messageC = c.getLog("newGroup").getLog().get(0);
-		/*
+		Message messageB = b.getLog("newGroup").getLog().get(0);
+		Message messageC = c.getLog("newGroup").getLog().get(0);
 		assertTrue(messageB.getContent() == "Hello B and C" 
 			&& messageC.getContent() == "Hello B and C");
-			*/
+			
 	}
 }
