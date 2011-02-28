@@ -70,6 +70,7 @@ public class User extends BaseUser {
 	
 	public void run() {
 		while(true){
+			System.out.println(toRecv);
 			sendLock.writeLock().lock();
 			if(!toSend.isEmpty()) {
 				MessageJob pair = toSend.poll();
@@ -80,6 +81,7 @@ public class User extends BaseUser {
 			sendLock.writeLock().unlock();
 			recvLock.writeLock().lock();
 			if(!toRecv.isEmpty()) {
+				System.out.println("recv notempty");
 				Message msg = toRecv.poll();
 				logRecvMsg(msg);
 				if(!msg.getSource().equals(username)){ //only if not from self
@@ -93,6 +95,7 @@ public class User extends BaseUser {
 	
 	private void logRecvMsg(Message msg) {
 		// Add to chatlog
+		System.out.println("logging message for user: " + username);
 		boolean isGroup = true;
 		String reference = msg.getGroup();
 		if (reference == null) {
@@ -117,6 +120,10 @@ public class User extends BaseUser {
 			return chatlogs.get(name);
 		}
 		return null;
+	}
+	
+	public Map<String, ChatLog> getLogs() {
+		return chatlogs;
 	}
 	
 }

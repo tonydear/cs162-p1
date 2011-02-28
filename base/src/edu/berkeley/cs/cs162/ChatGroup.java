@@ -14,6 +14,10 @@ public class ChatGroup {
 		userlist = new HashMap<String, User>();
 	}
 	
+	public HashMap<String, User> getUserList() {
+		return userlist;
+	}
+	
 	public int getNumUsers() {
 		return userlist.size();
 	}
