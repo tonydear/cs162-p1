@@ -66,6 +66,10 @@ public class User extends BaseUser {
 		return null;
 	}
 	
+	public Map<String, ChatLog> getLogs() {
+		return chatlogs;
+	}
+	
 	public void send(String dest, String msg) {
 		MessageJob pair = new MessageJob(dest, msg);
 		sendLock.writeLock().lock();
