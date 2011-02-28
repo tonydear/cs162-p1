@@ -1,13 +1,10 @@
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
 
 import edu.berkeley.cs.cs162.ChatServer;
-import junit.framework.TestCase;
 import edu.berkeley.cs.cs162.*;
 import org.junit.*;
 import static org.junit.Assert.* ;
