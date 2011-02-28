@@ -46,6 +46,13 @@ public class ChatLog {
 	
 	public String toString() {
 		String ret = new String();
+		
+		if (chatgroup != null) {
+			ret.concat("ChatGroup: ");
+			ret.concat(chatgroup);
+			ret.concat("\n");
+		}
+		
 		ret.concat("User: ");
 		ret.concat(user.toString());
 		ret.concat("\n");
@@ -64,6 +71,4 @@ public class ChatLog {
 		
 		return ret;
 	}
-	
-	
 }
