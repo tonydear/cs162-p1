@@ -114,7 +114,6 @@ public class User extends BaseUser {
 	
 	public void run() {
 		while(true){
-			System.out.println(toRecv);
 			sendLock.writeLock().lock();
 			if(!toSend.isEmpty()) {
 				MessageJob pair = toSend.poll();
@@ -125,7 +124,6 @@ public class User extends BaseUser {
 			sendLock.writeLock().unlock();
 			recvLock.writeLock().lock();
 			if(!toRecv.isEmpty()) {
-				System.out.println("recv notempty");
 				Message msg = toRecv.poll();
 				logRecvMsg(msg);
 				if(!msg.getSource().equals(username)){ //only if not from self

@@ -51,7 +51,7 @@ public class ChatGroup {
 	}
 	
 	public synchronized boolean forwardMessage(Message msg) {
-		if (! userlist.containsValue(msg.getSource()))
+		if (! userlist.containsKey(msg.getSource()))
 			return false;
 		Collection<User> users = userlist.values();
 		Iterator<User> it = users.iterator();
