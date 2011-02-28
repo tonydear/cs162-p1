@@ -160,34 +160,40 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		return users.keySet();
 	}
 	
-	public MsgSendError processMessage(String source, String dest, String msg, int sqn) {
-		Message message = new Message(Long.toString(System.currentTimeMillis()),source, dest, msg);
+	public MsgSendError processMessage(String source, String dest, String msg, int sqn) {	
+		Message message = new Message(Long.toString(System.currentTimeMillis()), source, dest, msg);
 		message.setSQN(sqn);
 		lock.readLock().lock();
 		TestChatServer.logUserSendMsg(source, message.toString());
+		
 		if (users.containsKey(source)) {
-			if(users.containsKey(dest)) {
+			if (users.containsKey(dest)) {
 				User destUser = users.get(dest);
 				User sourceUser = users.get(source);
 				destUser.msgReceived(message);
 				sourceUser.msgReceived(message);
-			} else if(groups.containsKey(dest)) {
+				
+			} else if (groups.containsKey(dest)) {
+				message.setIsFromGroup();
 				ChatGroup group = groups.get(dest);
 				if (!group.forwardMessage(message)) {
 					lock.readLock().unlock();
 					TestChatServer.logChatServerDropMsg(message.toString(), new Date());
 					return MsgSendError.NOT_IN_GROUP;
 				}
+				
 			} else {
 				lock.readLock().unlock();
 				TestChatServer.logChatServerDropMsg(message.toString(), new Date());
 				return MsgSendError.INVALID_DEST;
 			}
+			
 		} else {
 			lock.readLock().unlock();
 			TestChatServer.logChatServerDropMsg(message.toString(), new Date());
 			return MsgSendError.INVALID_SOURCE;
 		}
+		
 		lock.readLock().unlock();
 		return MsgSendError.MESSAGE_SENT;
 	}

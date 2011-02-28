@@ -93,22 +93,25 @@ public class User extends BaseUser {
 	
 	private void logRecvMsg(Message msg) {
 		// Add to chatlog
-		boolean isGroup = true;
-		String reference = msg.getGroup();
-		if (reference == null) {
-			isGroup = false;
-			reference = msg.getSource();
-		}
 		ChatLog log;
-		if (chatlogs.containsKey(reference)) {
-			log = chatlogs.get(reference);
-		} else {
-			if (isGroup)
-				log = new ChatLog(msg.getSource(), this, msg.getGroup());
+		String reference;
+		
+		if (msg.isFromGroup())
+			reference = msg.getDest();
+		else
+			reference = msg.getSource();
+
+		if (chatlogs.containsKey(reference))
+			log = chatlogs.get(msg.getDest());
+		else {
+			if (msg.isFromGroup())
+				log = new ChatLog(msg.getSource(), this, msg.getDest());
 			else
 				log = new ChatLog(msg.getSource(), this);
+			
 			chatlogs.put(reference, log);
 		}
+		
 		log.add(msg);
 	}
 	
