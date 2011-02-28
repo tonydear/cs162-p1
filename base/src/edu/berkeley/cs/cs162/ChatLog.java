@@ -8,11 +8,28 @@ public class ChatLog {
 	private List<Message> log;
 	private User user;
 	private String source;
+	private String chatgroup;
 	
 	public ChatLog(String source, User user) {
 		this.source = source;
 		this.user = user;
 		log = new LinkedList<Message>();
+		chatgroup = null;
+	}
+	
+	public ChatLog(String source, User user, String chatgroup) {
+		this.source = source;
+		this.user = user;
+		log = new LinkedList<Message>();
+		this.chatgroup = chatgroup;
+	}
+	
+	public List<Message> getLog() {
+		return log;
+	}
+	
+	public User getUser() {
+		return user;
 	}
 	
 	public void add(Message message) { 
@@ -21,6 +38,10 @@ public class ChatLog {
 	
 	public String getSource() { 
 		return source;
+	}
+	
+	public String getGroup() {
+		return chatgroup;
 	}
 	
 	public String toString() {
