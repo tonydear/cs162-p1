@@ -49,7 +49,7 @@ public class Message {
 	 */
 	
 	public String toString(){
-		return source + " " + dest + " " + timestamp + " " + sqn;
+		return source + "\t" + dest + "\t" + timestamp + "\t" + sqn;
 	}
 	
 }
