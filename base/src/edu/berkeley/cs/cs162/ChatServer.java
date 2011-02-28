@@ -100,7 +100,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		else {
 			if(allNames.contains(groupname)){
 				lock.writeLock().unlock();
-				return success;
+				return false;
 			}
 			group = new ChatGroup(groupname);
 			groups.put(groupname, group);
