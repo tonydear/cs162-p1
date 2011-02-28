@@ -40,6 +40,10 @@ public class ChatLog {
 		return chatgroup;
 	}
 	
+	public List<Message> getMessages(){
+		return log;
+	}
+	
 	public void add(Message message) { 
 		log.add(message);
 	}
@@ -70,9 +74,5 @@ public class ChatLog {
 		}
 		
 		return ret;
-	}
-	
-	public List<Message> getMessages(){
-		return log;
 	}
 }

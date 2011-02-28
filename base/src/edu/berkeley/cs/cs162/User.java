@@ -33,9 +33,12 @@ public class User extends BaseUser {
 		sqn = 0;
 	}
 	
-	public void getAllGroups() { 
-		Set<String> groups = server.getGroups();
-		// Do something with group list
+	public String getUsername() {
+		return username;
+	}
+	
+	public List<String> getUserGroups() {
+		return groupsJoined;
 	}
 	
 	public void getAllUsers() {
@@ -43,20 +46,17 @@ public class User extends BaseUser {
 		// Do something with users list
 	}
 	
-	public int getNumGroups() {
-		return server.getNumGroups();
+	public void getAllGroups() { 
+		Set<String> groups = server.getGroups();
+		// Do something with group list
 	}
 	
 	public int getNumUsers() {
 		return server.getNumUsers();
 	}
 	
-	public List<String> getUserGroups() {
-		return groupsJoined;
-	}
-	
-	public String getUsername() {
-		return username;
+	public int getNumGroups() {
+		return server.getNumGroups();
 	}
 	
 	public ChatLog getLog(String name){
@@ -64,6 +64,10 @@ public class User extends BaseUser {
 			return chatlogs.get(name);
 		}
 		return null;
+	}
+	
+	public Map<String, ChatLog> getLogs() {
+		return chatlogs;
 	}
 	
 	public void send(String dest, String msg) {
