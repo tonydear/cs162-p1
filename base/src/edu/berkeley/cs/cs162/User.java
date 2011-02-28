@@ -102,7 +102,7 @@ public class User extends BaseUser {
 			reference = msg.getSource();
 
 		if (chatlogs.containsKey(reference))
-			log = chatlogs.get(msg.getDest());
+			log = chatlogs.get(reference);
 		else {
 			if (msg.isFromGroup())
 				log = new ChatLog(msg.getSource(), this, msg.getDest());
