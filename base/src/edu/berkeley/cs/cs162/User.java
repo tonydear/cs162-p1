@@ -117,7 +117,7 @@ public class User extends BaseUser {
 	}
 	
 	public void run() {
-		while(true){
+		while(!loggedOff){
 			sendLock.writeLock().lock();
 			if(!toSend.isEmpty()) {
 				MessageJob pair = toSend.poll();
