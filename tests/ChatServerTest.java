@@ -11,7 +11,7 @@ public class ChatServerTest {
 	@Before
 	public void beforeEachTest() {
 		server = new ChatServer();
-		
+		server.start();
 	}
 	
 	@After

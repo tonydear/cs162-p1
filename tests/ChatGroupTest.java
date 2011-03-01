@@ -18,6 +18,7 @@ public class ChatGroupTest {
 	@Before
 	public void beforeEachTest() {
 		server = new ChatServer();
+		server.start();
 		server.login("A");
 		server.login("B");
 		server.login("C");

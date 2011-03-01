@@ -11,6 +11,7 @@ public class LogoutTest {
 	@Before
 	public void beforeEachTest() {
 		server = new ChatServer();
+		server.start();
 	}
 	
 	@After
