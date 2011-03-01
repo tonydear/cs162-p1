@@ -141,7 +141,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		if(groups.containsKey(groupname)) {
 			group = groups.get(groupname);
 			success = group.joinGroup(user.getUsername(), user);
-			user.addToGroups("groupname");
+			user.addToGroups(groupname);
 			TestChatServer.logUserJoinGroup(groupname, user.getUsername(), new Date());
 			lock.writeLock().unlock();
 			return success;
