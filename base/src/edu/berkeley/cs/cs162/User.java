@@ -19,6 +19,7 @@ public class User extends BaseUser {
 	private ReentrantReadWriteLock sendLock;
 	private int sqn;
 	private volatile boolean loggedOff;
+	private final static int MAX_SEND = 10000;
 	
 	public User(ChatServer server, String username) {
 		this.server = server;
@@ -73,6 +74,11 @@ public class User extends BaseUser {
 			sendLock.writeLock().unlock();
 			return;
 
+		}
+		if(toSend.size() == MAX_SEND){
+			sendLock.writeLock().unlock();
+			System.out.println(username + " TIMED OUT");
+			return;
 		}
 		String timestamp = Long.toString(System.currentTimeMillis()/1000);
 		MessageJob msgJob = new MessageJob(dest,msg,sqn,timestamp);
