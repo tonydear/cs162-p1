@@ -191,8 +191,8 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		return num;
 	}
 	
-	public MsgSendError processMessage(String source, String dest, String msg, int sqn) {	
-		Message message = new Message(Long.toString(System.currentTimeMillis()), source, dest, msg);
+	public MsgSendError processMessage(String source, String dest, String msg, int sqn, String timestamp) {	
+		Message message = new Message(timestamp, source, dest, msg);
 		message.setSQN(sqn);
 		lock.readLock().lock();
 		if (users.containsKey(source)) {

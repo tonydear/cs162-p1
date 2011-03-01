@@ -73,8 +73,9 @@ public class User extends BaseUser {
 			sendLock.writeLock().unlock();
 			return;
 		}
-		MessageJob msgJob = new MessageJob(dest,msg,sqn);
-		String formattedMsg = username + "\t" + dest + "\t" + System.currentTimeMillis()/1000 + "\t" + sqn; 
+		String timestamp = Long.toString(System.currentTimeMillis()/1000);
+		MessageJob msgJob = new MessageJob(dest,msg,sqn,timestamp);
+		String formattedMsg = username + "\t" + dest + "\t" + timestamp+ "\t" + sqn; 
 		TestChatServer.logUserSendMsg(username, formattedMsg);
 		sqn++;
 		toSend.add(msgJob);
@@ -125,7 +126,7 @@ public class User extends BaseUser {
 			sendLock.writeLock().lock();
 			if(!toSend.isEmpty()) {
 				MessageJob msgJob = toSend.poll();
-				MsgSendError msgStatus = server.processMessage(username, msgJob.dest, msgJob.msg, msgJob.sqn);
+				MsgSendError msgStatus = server.processMessage(username, msgJob.dest, msgJob.msg, msgJob.sqn, msgJob.timestamp);
 				// Do something with message send error
 			}
 			sendLock.writeLock().unlock();
