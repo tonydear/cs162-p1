@@ -121,8 +121,8 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		}
 		if(group.leaveGroup(user.getUsername())) {
 			if(group.getNumUsers() <= 0) { groups.remove(groupname); }
-			lock.writeLock().unlock();
 			TestChatServer.logUserLeaveGroup(groupname, user.getUsername(), new Date());
+			lock.writeLock().unlock();
 			return true;
 		}
 		lock.writeLock().unlock();
@@ -205,20 +205,20 @@ public class ChatServer extends Thread implements ChatServerInterface {
 				message.setIsFromGroup();
 				ChatGroup group = groups.get(dest);
 				if (!group.forwardMessage(message)) {
-					lock.readLock().unlock();
 					TestChatServer.logChatServerDropMsg(message.toString(), new Date());
+					lock.readLock().unlock();
 					return MsgSendError.NOT_IN_GROUP;
 				}
 				
 			} else {
-				lock.readLock().unlock();
 				TestChatServer.logChatServerDropMsg(message.toString(), new Date());
+				lock.readLock().unlock();
 				return MsgSendError.INVALID_DEST;
 			}
 			
 		} else {
-			lock.readLock().unlock();
 			TestChatServer.logChatServerDropMsg(message.toString(), new Date());
+			lock.readLock().unlock();
 			return MsgSendError.INVALID_SOURCE;
 		}
 		

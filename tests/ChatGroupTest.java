@@ -25,7 +25,8 @@ public class ChatGroupTest {
 
 	@After
 	public void afterEachTest() {
-		server = null; 
+		server.shutdown();
+		
 	}
 	
 	@Test
