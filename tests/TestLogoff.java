@@ -1,14 +1,17 @@
-package edu.berkeley.cs.cs162;
 
-//Testing for consistent chatlogs among individual users.
 
-import java.io.IOException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-public class TestLeaveGroup {
-	
+
+import edu.berkeley.cs.cs162.BaseUser;
+import edu.berkeley.cs.cs162.ChatServer;
+import edu.berkeley.cs.cs162.ChatServerInterface;
+import edu.berkeley.cs.cs162.MessageDeliveryTask;
+import edu.berkeley.cs.cs162.User;
+
+public class TestLogoff {
 	public static void main(String [] args) throws Exception {
 		ChatServerInterface s = new ChatServer();
 		ExecutorService exe = Executors.newFixedThreadPool(10);
@@ -21,22 +24,21 @@ public class TestLeaveGroup {
 		s.joinGroup((BaseUser)a, "Group1");
 		s.joinGroup((BaseUser)b, "Group1");
 		
-		for(i = 0; i < 50; i++) {
+		for(i = 0; i < 10; i++) {
 			MessageDeliveryTask t = new MessageDeliveryTask(s, "A", "Group1", "ab "+ i);
 			MessageDeliveryTask c = new MessageDeliveryTask(s, "B", "Group1", "ba "+ i);
 			exe.execute(t);
 			exe.execute(c);
 		}
-		Thread.sleep(25);
-		s.leaveGroup(b, "Group1");
-		for(i = 50; i < 100; i++) {
-			MessageDeliveryTask t = new MessageDeliveryTask(s, "A", "Group1", "ab "+ i);
+		Thread.sleep(22);
+		s.logoff("A");
+		for(i = 10; i < 20; i++) {
+			MessageDeliveryTask t = new MessageDeliveryTask(s, "B", "Group1", "ba "+ i);
 			exe.execute(t);
 		}
-		
 		exe.shutdown();
 		
-		Thread.sleep(5000);
+		Thread.sleep(10000);
 		File afile = new File("aFile.txt");
 		File bfile = new File("bFile.txt");
 		
@@ -53,5 +55,5 @@ public class TestLeaveGroup {
 		s.shutdown();
 		System.out.println("done \n");
 	}
-	
+
 }
