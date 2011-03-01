@@ -130,9 +130,7 @@ public class User extends BaseUser {
 			if(!toRecv.isEmpty()) {
 				Message msg = toRecv.poll();
 				logRecvMsg(msg);
-				if(!msg.getSource().equals(username)){ //only if not from self
-					TestChatServer.logUserMsgRecvd(username, msg.toString(), new Date());
-				}
+				TestChatServer.logUserMsgRecvd(username, msg.toString(), new Date());
 				msgReceived(msg.toString());
 			}
 			recvLock.writeLock().unlock();

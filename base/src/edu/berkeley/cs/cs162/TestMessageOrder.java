@@ -48,6 +48,7 @@ public class TestMessageOrder {
 		//checks if all messages received for all users
 		//then checks if users in same group have same chatlog
 		for(int n = 0; n < 20; n+=5){
+			User toCompareto = (User)server.getUser("user" + 0);
 			for(int i = 0; i < 5; i++){
 				int group = (i+n)/5;
 				User u = (User)server.getUser("user" + (i+n));
@@ -58,7 +59,8 @@ public class TestMessageOrder {
 					groupLogs[group] = log.toString();
 					System.out.println(true);
 				}else{
-					System.out.println(groupLogs[group].equals(log.toString()));
+					System.out.println(u.getLog("group" + group).isSubLog(toCompareto.getLog("group" + 0)));
+					System.out.println(u.getLog("group" + group).toString().equals(toCompareto.getLog("group"+0).toString()));
 				}
 					
 			}
@@ -90,6 +92,7 @@ public class TestMessageOrder {
 		return true;
 	}
 	
+	//Jason putting this in chatlogs
 	private static boolean isOneSubOfOther(LinkedList<Message> a, LinkedList<Message> b){
 		LinkedList<Message> small;
 		LinkedList<Message> big;
@@ -102,6 +105,7 @@ public class TestMessageOrder {
 		}
 		
 		Message next = big.getFirst();
+		
 		
 		return true;
 	}

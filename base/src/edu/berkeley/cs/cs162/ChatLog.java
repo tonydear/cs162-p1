@@ -86,11 +86,14 @@ public class ChatLog {
 			if(test.toString().equals(match)) {
 				isSub = true;
 				for(Message head : chatLog.getLog()) {
-					if(!iter.hasNext() || !head.toString().equals(test.toString())) {
+					//System.out.println(head.toString());
+					//System.out.println(test.toString());
+					if(!head.toString().equals(test.toString())) {
 						isSub = false;
 						break;
 					}
-					test = iter.next();
+					if(iter.hasNext())
+						test = iter.next();
 				}
 				break;
 			}
