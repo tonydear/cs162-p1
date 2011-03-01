@@ -1,6 +1,7 @@
 package edu.berkeley.cs.cs162;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -8,10 +9,12 @@ public class ChatGroup {
 	private String name;
 	private HashMap<String, User> userlist;
 	private final static int MAX_USERS = 10;
+	private HashMap<String, Date> joinTimes;
 	
 	ChatGroup(String initname) {
 		name = initname;
 		userlist = new HashMap<String, User>();
+		joinTimes = new HashMap<String, Date>();
 	}
 	
 	public HashMap<String, User> getUserList() {
@@ -40,6 +43,7 @@ public class ChatGroup {
 		if(userlist.size() + 1 > MAX_USERS)		//adding user would exceed capacity
 			return false;
 		userlist.put(user, (User)userObj);			//add user to hashmap
+		joinTimes.put(user, new Date());
 		return true;
 	}
 	
@@ -58,7 +62,9 @@ public class ChatGroup {
 		User user;
 		while(it.hasNext()) {
 			user = it.next();
-			user.acceptMsg(msg);
+			Date joinTime = joinTimes.get(user.getUsername());
+			if(msg.getDate().after(joinTime) || msg.getDate().equals(joinTime))
+				user.acceptMsg(msg);
 		}
 		return true;
 	}
