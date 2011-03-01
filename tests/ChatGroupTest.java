@@ -92,6 +92,13 @@ public class ChatGroupTest {
 	}
 	
 	@Test
+	public void TestSendMessageNotInGroup() {
+		server.joinGroup(server.getUser("A"), "newGroup");
+		server.leaveGroup(server.getUser("A"), "newGroup");
+		assert(server.processMessage("A", "newGroup", "test", 0, "0") == MsgSendError.NOT_IN_GROUP);
+	}
+	
+	@Test
 	public void TestSendMessageToGroup() throws InterruptedException {
 		server.joinGroup(server.getUser("A"), "newGroup");
 		server.joinGroup(server.getUser("B"), "newGroup");
