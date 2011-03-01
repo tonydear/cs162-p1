@@ -16,6 +16,7 @@ public class ChatGroupTest {
 	
 	@Before
 	public void beforeEachTest() {
+		System.out.println();
 		server = new ChatServer();
 		server.start();
 		server.login("A");
@@ -26,7 +27,6 @@ public class ChatGroupTest {
 	@After
 	public void afterEachTest() {
 		server.shutdown();
-		System.out.println();
 	}
 	
 	@Test

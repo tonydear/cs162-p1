@@ -10,6 +10,7 @@ public class LogoutTest {
 	
 	@Before
 	public void beforeEachTest() {
+		System.out.println();
 		server = new ChatServer();
 		server.start();
 	}
@@ -17,7 +18,6 @@ public class LogoutTest {
 	@After
 	public void afterEachTest() {
 		server.shutdown();
-		System.out.println();
 	}
 	
 	@Test
