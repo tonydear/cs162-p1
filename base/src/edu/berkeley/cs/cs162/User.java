@@ -72,10 +72,12 @@ public class User extends BaseUser {
 		if(loggedOff){
 			sendLock.writeLock().unlock();
 			return;
+
 		}
 		String timestamp = Long.toString(System.currentTimeMillis()/1000);
 		MessageJob msgJob = new MessageJob(dest,msg,sqn,timestamp);
-		String formattedMsg = username + "\t" + dest + "\t" + timestamp+ "\t" + sqn; 
+		String formattedMsg = username + " " + dest + " " + timestamp+ " " + sqn; 
+
 		TestChatServer.logUserSendMsg(username, formattedMsg);
 		sqn++;
 		toSend.add(msgJob);
@@ -134,7 +136,7 @@ public class User extends BaseUser {
 		sendLock.writeLock().lock();
 		while(!toSend.isEmpty()) {
 			MessageJob msgJob = toSend.poll();
-			String formattedMsg = username + "\t" + msgJob.dest + "\t" + System.currentTimeMillis()/1000 + "\t" + msgJob.sqn;
+			String formattedMsg = username + " " + msgJob.dest + " " + System.currentTimeMillis()/1000 + "\t" + msgJob.sqn;
 			TestChatServer.logChatServerDropMsg(formattedMsg, new Date());
 		}
 		sendLock.writeLock().unlock();
