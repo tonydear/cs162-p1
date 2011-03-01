@@ -9,7 +9,6 @@ public class Message {
 	private String content;
 	private int sqn;
 	private boolean isFromGroup = false;
-	private Date date;
 	
 	public Message(String timestamp, String source, String dest, String content) {
 		this.timestamp = timestamp;
@@ -17,11 +16,6 @@ public class Message {
 		this.dest = dest;
 		this.content = content;
 		sqn = 0;
-		date = new Date();
-	}
-	
-	public Date getDate() {
-		return date;
 	}
 	
 	public void setSQN(int num){
