@@ -104,6 +104,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 			group = new ChatGroup(groupname);
 			groups.put(groupname, group);
 			success = group.joinGroup(user.getUsername(), user);
+			TestChatServer.logUserJoinGroup(groupname, user.getUsername(), new Date());
 			lock.writeLock().unlock();
 			return success;
 		}
