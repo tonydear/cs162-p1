@@ -79,7 +79,6 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		allNames.remove(username);
 		users.remove(username);
 		lock.writeLock().unlock();	
-		TestChatServer.logUserLogout(username, new Date());
 		return true;
 	}
 
