@@ -17,6 +17,7 @@ public class ChatServerTest {
 	@After
 	public void afterEachTest() {
 		server.shutdown(); 
+		System.out.println();
 	}
 	
 	@Test

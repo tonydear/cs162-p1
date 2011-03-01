@@ -22,6 +22,7 @@ public class OneToOneMsg {
 		server.shutdown();
 		a = null;
 		b = null;
+		System.out.println();
 	}
 	
 	@Test

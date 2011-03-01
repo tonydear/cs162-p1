@@ -17,6 +17,7 @@ public class LoginTest{
 	@After
 	public void afterEachTest() {
 		server.shutdown(); 
+		System.out.println();
 	}
 	
 	@Test
