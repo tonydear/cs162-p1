@@ -31,6 +31,7 @@ public class ChatGroupTest {
 	
 	@Test
 	public void TestCreateGroup() {
+		System.out.println("Running create group test");
 		server.joinGroup(server.getUser("A"), "newGroup");
 		Set<String> groups = server.getGroups();
 		ChatGroup newGroup = server.getGroup("newGroup");
@@ -40,6 +41,7 @@ public class ChatGroupTest {
 	
 	@Test
 	public void TestJoinGroup() {
+		System.out.println("Running join group test");
 		server.joinGroup(server.getUser("A"), "newGroup");
 		server.joinGroup(server.getUser("B"), "newGroup");
 		Set<String> groups = server.getGroups();
@@ -51,6 +53,7 @@ public class ChatGroupTest {
 	
 	@Test
 	public void TestFullGroup() {
+		System.out.println("Running full group test");
 		for (int i=0; i<10; i++) {
 			server.login(Integer.toString(i));
 			server.joinGroup(server.getUser(Integer.toString(i)), "newGroup");
@@ -64,6 +67,7 @@ public class ChatGroupTest {
 	
 	@Test
 	public void TestLeaveGroupNotLastUser() {
+		System.out.println("Running leave group not last user test");
 		server.joinGroup(server.getUser("A"), "newGroup");
 		server.joinGroup(server.getUser("B"), "newGroup");
 		server.leaveGroup(server.getUser("A"), "newGroup");
@@ -75,6 +79,7 @@ public class ChatGroupTest {
 	
 	@Test
 	public void TestLeaveGroupLastUser() {
+		System.out.println("Running leave group last user test");
 		server.joinGroup(server.getUser("A"), "newGroup");
 		server.leaveGroup(server.getUser("A"), "newGroup");
 		Set<String> groups = server.getGroups();

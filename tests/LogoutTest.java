@@ -30,4 +30,5 @@ public class LogoutTest {
 		System.out.println("Running rejected user logoff test");
 		assertTrue(server.logoff("A") == false);
 	}
+	
 }
