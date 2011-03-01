@@ -68,9 +68,9 @@ public class User extends BaseUser {
 	}
 	
 	public void send(String dest, String msg) {
+		sendLock.writeLock().lock();
 		if(loggedOff)
 			return;
-		sendLock.writeLock().lock();
 		MessageJob msgJob = new MessageJob(dest,msg,sqn);
 		String formattedMsg = username + "\t" + dest + "\t" + System.currentTimeMillis()/1000 + "\t" + sqn; 
 		TestChatServer.logUserSendMsg(username, formattedMsg);
