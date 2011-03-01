@@ -56,6 +56,7 @@ public class TestChatServer {
 	 */
 	//done
 	public static void logUserLogin(String username, Date time){
+		System.out.println("User: " + username + " Logged In at " + time);
 	}
 
 	/**
@@ -68,6 +69,22 @@ public class TestChatServer {
 	 */
 	//done
 	public static void logUserLoginFailed(String username, Date time, LoginError e){
+		System.out.println("User: " + username + " Login Fail at " + time);
+		String error;
+		switch(e) {
+			case USER_QUEUED:
+				error = "User Queued";
+				break;
+			case USER_DROPPED:
+				error = "User Dropped";
+				break;
+			case USER_REJECTED:
+				error = "User Rejected";
+				break;
+			default:
+				error = "";
+		}
+		System.out.println(error);
 	}
 	
 	/**
@@ -79,6 +96,7 @@ public class TestChatServer {
 	 */
 	//done
 	public static void logUserLogout(String username, Date time){
+		System.out.println("User: " + username + " Logged Out at " + time);
 	}
 	
 	/**
@@ -91,6 +109,7 @@ public class TestChatServer {
 	 */
 	//done
 	public static void logUserJoinGroup(String groupname, String username, Date time){
+		System.out.println("User: " + username + " Joined Group " + groupname + " at " + time);
 	}
 	
 	/**
@@ -102,6 +121,7 @@ public class TestChatServer {
 	 */
 	//done
 	public static void logUserLeaveGroup(String groupname, String username, Date time){
+		System.out.println("User: " + username + " Left Group " + groupname + " at " + time);
 	}
 	
 	
