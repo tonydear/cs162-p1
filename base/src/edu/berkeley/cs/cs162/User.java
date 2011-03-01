@@ -74,6 +74,12 @@ public class User extends BaseUser {
 		sendLock.writeLock().unlock();
 	}
 	
+	public void acceptMsg(Message msg) {
+		logRecvMsg(msg);
+		TestChatServer.logUserMsgRecvd(username, msg.toString(), new Date());
+		msgReceived(msg.toString());
+	}
+	
 	@Override
 	public void msgReceived(String msg) {
 		System.out.println(username + " received: " + msg);
@@ -119,11 +125,5 @@ public class User extends BaseUser {
 			sendLock.writeLock().unlock();
 		}
 		TestChatServer.logUserLogout(username, new Date());
-	}
-
-	public void acceptMsg(Message msg) {
-		logRecvMsg(msg);
-		TestChatServer.logUserMsgRecvd(username, msg.toString(), new Date());
-		msgReceived(msg.toString());
 	}
 }
