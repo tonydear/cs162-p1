@@ -68,6 +68,7 @@ public class ChatLog {
 		while (iter.hasNext()) {
 			Message msg = iter.next();
 			ret = ret.concat("Source: " + msg.getSource() + "\n");
+			//System.out.println(msg.getTimestamp());
 			ret = ret.concat(msg.getTimestamp());
 			ret = ret.concat(": ");
 			ret = ret.concat(msg.getContent());
