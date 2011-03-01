@@ -76,8 +76,8 @@ public class User extends BaseUser {
 
 		}
 		if(toSend.size() == MAX_SEND){
-			sendLock.writeLock().unlock();
 			System.out.println(username + " TIMED OUT");
+			sendLock.writeLock().unlock();
 			return;
 		}
 		String timestamp = Long.toString(System.currentTimeMillis()/1000);
