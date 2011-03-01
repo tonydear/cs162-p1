@@ -40,6 +40,10 @@ public class Message {
 		return content;
 	}
 	
+	public int getSqn() {
+		return sqn;
+	}
+	
 	public boolean isFromGroup() {
 		return isFromGroup;
 	}
@@ -49,7 +53,7 @@ public class Message {
 	 */
 	
 	public String toString(){
-		return source + "\t" + dest + "\t" + timestamp + "\t" + sqn;
+		return source + " " + dest + " " + timestamp + " " + sqn;
 	}
 	
 }

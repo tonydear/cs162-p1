@@ -87,12 +87,12 @@ public class User extends BaseUser {
 	public void acceptMsg(Message msg) {
 		logRecvMsg(msg);
 		TestChatServer.logUserMsgRecvd(username, msg.toString(), new Date());
-		msgReceived(msg.toString());
+		msgReceived(msg.getSource()+"\t"+msg.getDest()+"\t"+msg.getSqn()+"\t"+msg.getContent());
 	}
 	
 	@Override
 	public void msgReceived(String msg) {
-		System.out.println(username + " received: " + msg);
+		System.out.println(msg);
 	}
 
 	private void logRecvMsg(Message msg) {
