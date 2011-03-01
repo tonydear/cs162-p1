@@ -118,6 +118,7 @@ public class User extends BaseUser {
 			}
 			sendLock.writeLock().unlock();
 		}
+		TestChatServer.logUserLogout(username, new Date());
 	}
 
 	public void acceptMsg(Message msg) {
