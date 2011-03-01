@@ -30,7 +30,7 @@ public class TestChatGroups {
 		
 		exe.shutdown();
 		
-		Thread.sleep(10000);
+		Thread.sleep(5000);
 		File afile = new File("aFile.txt");
 		File bfile = new File("bFile.txt");
 		
