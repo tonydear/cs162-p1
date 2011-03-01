@@ -3,6 +3,7 @@ import org.junit.*;
 import static org.junit.Assert.* ;
 
 
+
 public class ChatServerTest {
 	
 	ChatServer server;

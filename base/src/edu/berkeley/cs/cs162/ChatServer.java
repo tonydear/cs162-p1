@@ -79,7 +79,6 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		allNames.remove(username);
 		users.remove(username);
 		lock.writeLock().unlock();	
-		TestChatServer.logUserLogout(username, new Date());
 		return true;
 	}
 
@@ -201,7 +200,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		if (users.containsKey(source)) {
 			if (users.containsKey(dest)) {
 				User destUser = users.get(dest);
-				destUser.enqueueMsg(message);
+				destUser.acceptMsg(message);
 			} else if (groups.containsKey(dest)) {
 				message.setIsFromGroup();
 				ChatGroup group = groups.get(dest);

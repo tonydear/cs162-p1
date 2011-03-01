@@ -15,9 +15,8 @@ public class User extends BaseUser {
 	private String username;
 	private List<String> groupsJoined;
 	private Map<String, ChatLog> chatlogs;
-	private Queue<Message> toRecv;
 	private Queue<MessageJob> toSend;
-	private ReentrantReadWriteLock recvLock, sendLock;
+	private ReentrantReadWriteLock sendLock;
 	private int sqn;
 	private volatile boolean loggedOff;
 	
@@ -26,9 +25,7 @@ public class User extends BaseUser {
 		this.username = username;
 		groupsJoined = new LinkedList<String>();
 		chatlogs = new HashMap<String, ChatLog>();
-		toRecv = new LinkedList<Message>();
 		toSend = new LinkedList<MessageJob>();
-		recvLock = new ReentrantReadWriteLock(true);
 		sendLock = new ReentrantReadWriteLock(true);
 		sqn = 0;
 	}
@@ -77,12 +74,6 @@ public class User extends BaseUser {
 		sendLock.writeLock().unlock();
 	}
 	
-	public void enqueueMsg(Message msg) {
-		recvLock.writeLock().lock();
-		toRecv.add(msg);	
-		recvLock.writeLock().unlock();
-	}
-	
 	@Override
 	public void msgReceived(String msg) {
 		System.out.println(username + " received: " + msg);
@@ -126,14 +117,13 @@ public class User extends BaseUser {
 				// Do something with message send error
 			}
 			sendLock.writeLock().unlock();
-			recvLock.writeLock().lock();
-			if(!toRecv.isEmpty()) {
-				Message msg = toRecv.poll();
-				logRecvMsg(msg);
-				TestChatServer.logUserMsgRecvd(username, msg.toString(), new Date());
-				msgReceived(msg.toString());
-			}
-			recvLock.writeLock().unlock();
 		}
+		TestChatServer.logUserLogout(username, new Date());
+	}
+
+	public void acceptMsg(Message msg) {
+		logRecvMsg(msg);
+		TestChatServer.logUserMsgRecvd(username, msg.toString(), new Date());
+		msgReceived(msg.toString());
 	}
 }

@@ -48,7 +48,7 @@ public class TestMessageOrder {
 		//checks if all messages received for all users
 		//then checks if users in same group have same chatlog
 		for(int n = 0; n < 20; n+=5){
-			User toCompareto = (User)server.getUser("user" + 0);
+			User toCompareto = (User)server.getUser("user" + n);
 			for(int i = 0; i < 5; i++){
 				int group = (i+n)/5;
 				User u = (User)server.getUser("user" + (i+n));
@@ -59,8 +59,8 @@ public class TestMessageOrder {
 					groupLogs[group] = log.toString();
 					System.out.println(true);
 				}else{
-					System.out.println(u.getLog("group" + group).isSubLog(toCompareto.getLog("group" + 0)));
-					System.out.println(u.getLog("group" + group).toString().equals(toCompareto.getLog("group"+0).toString()));
+					System.out.println(u.getLog("group" + group).isSubLog(toCompareto.getLog("group" + group)));
+					System.out.println(u.getLog("group" + group).toString().equals(toCompareto.getLog("group"+group).toString()));
 				}
 					
 			}
