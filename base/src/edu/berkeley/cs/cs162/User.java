@@ -130,6 +130,11 @@ public class User extends BaseUser {
 			}
 			sendLock.writeLock().unlock();
 		}
+		while(!toSend.isEmpty()) {
+			MessageJob msgJob = toSend.poll();
+			String formattedMsg = username + "\t" + msgJob.dest + "\t" + System.currentTimeMillis()/1000 + "\t" + msgJob.sqn;
+			TestChatServer.logChatServerDropMsg(msgJob.msg, new Date());
+		}
 		TestChatServer.logUserLogout(username, new Date());
 	}
 }
