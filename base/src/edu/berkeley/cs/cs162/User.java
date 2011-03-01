@@ -54,8 +54,13 @@ public class User extends BaseUser {
 	public int getNumGroups() {
 		return server.getNumGroups();
 	}
+	
 	public void addToGroups(String group) {
 		groupsJoined.add(group);
+	}
+	
+	public void removeFromGroups(String group) {
+		groupsJoined.remove(group);
 	}
 	
 	public ChatLog getLog(String name){
