@@ -15,7 +15,7 @@ public class LogoutTest {
 	
 	@After
 	public void afterEachTest() {
-		server = null;
+		server.shutdown();
 	}
 	
 	@Test

@@ -18,7 +18,7 @@ public class OneToOneMsg {
 	
 	@After
 	public void afterEachTest() {
-		server = null;
+		server.shutdown();
 		a = null;
 		b = null;
 	}
@@ -30,7 +30,7 @@ public class OneToOneMsg {
 		b = (User)server.getUser("B");
 		a.send("B", "testing testing 123");
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(3000);
 		}catch(Exception e) {
 			
 		}
