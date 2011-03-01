@@ -40,7 +40,7 @@ public class Message {
 		return content;
 	}
 	
-	public int getSqn() {
+	public int getSQN() {
 		return sqn;
 	}
 	
