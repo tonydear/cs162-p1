@@ -231,9 +231,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	
 	@Override
 	public void run(){
-		System.out.println("Server started.");
 		while(!isDown){
 		}
-		System.out.println("Server down.");
 	}
 }
