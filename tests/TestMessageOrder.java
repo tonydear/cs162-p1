@@ -1,9 +1,15 @@
-package edu.berkeley.cs.cs162;
+
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
+
+import edu.berkeley.cs.cs162.BaseUser;
+import edu.berkeley.cs.cs162.ChatLog;
+import edu.berkeley.cs.cs162.ChatServer;
+import edu.berkeley.cs.cs162.Message;
+import edu.berkeley.cs.cs162.User;
 
 public class TestMessageOrder {
 	static ChatServer server;

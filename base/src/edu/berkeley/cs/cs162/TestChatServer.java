@@ -1,5 +1,6 @@
 package edu.berkeley.cs.cs162;
 
+
 /**
  * This is an example of how you should test your chat server.  Create
  * users and groups, and have them login, logout, and send messages in
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 public class TestChatServer {
 	
 	public static void main(String [] args) throws InterruptedException {

@@ -1,5 +1,5 @@
-package edu.berkeley.cs.cs162;
 
+import edu.berkeley.cs.cs162.*;
 //Testing for consistent chatlogs among individual users.
 
 import java.io.IOException;
@@ -7,6 +7,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import edu.berkeley.cs.cs162.BaseUser;
+import edu.berkeley.cs.cs162.ChatServer;
+import edu.berkeley.cs.cs162.ChatServerInterface;
+import edu.berkeley.cs.cs162.MessageDeliveryTask;
+import edu.berkeley.cs.cs162.User;
 public class TestChatGroups {
 	
 	public static void main(String [] args) throws Exception {
