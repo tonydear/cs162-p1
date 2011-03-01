@@ -56,6 +56,9 @@ public class User extends BaseUser {
 	public int getNumGroups() {
 		return server.getNumGroups();
 	}
+	public void addToGroups(String group) {
+		groupsJoined.add(group);
+	}
 	
 	public ChatLog getLog(String name){
 		if(chatlogs.containsKey(name)){
