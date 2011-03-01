@@ -39,14 +39,12 @@ public class User extends BaseUser {
 		return groupsJoined;
 	}
 	
-	public void getAllUsers() {
-		Set<String> users = server.getUsers();
-		// Do something with users list
+	public Set<String> getAllUsers() {
+		return server.getUsers();
 	}
 	
-	public void getAllGroups() { 
-		Set<String> groups = server.getGroups();
-		// Do something with group list
+	public Set<String> getAllGroups() { 
+		return server.getGroups();
 	}
 	
 	public int getNumUsers() {
