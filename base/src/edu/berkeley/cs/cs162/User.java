@@ -75,7 +75,7 @@ public class User extends BaseUser {
 			return;
 
 		}
-		if(toSend.size() == MAX_SEND){
+		if(toSend.size() >= MAX_SEND){
 			System.out.println(username + " TIMED OUT");
 			sendLock.writeLock().unlock();
 			return;
