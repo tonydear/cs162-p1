@@ -1,7 +1,5 @@
 package edu.berkeley.cs.cs162;
 
-import java.util.Date;
-
 public class Message {
 	private String timestamp;
 	private String source;
