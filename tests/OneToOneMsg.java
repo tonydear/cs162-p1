@@ -12,6 +12,7 @@ public class OneToOneMsg {
 	@Before
 	public void beforeEachTest() {
 		server = new ChatServer();
+		server.start();
 		server.login("A");
 		a = (User)server.getUser("A");
 	}
@@ -21,6 +22,7 @@ public class OneToOneMsg {
 		server.shutdown();
 		a = null;
 		b = null;
+		System.out.println();
 	}
 	
 	@Test

@@ -10,13 +10,14 @@ public class ChatServerTest {
 	
 	@Before
 	public void beforeEachTest() {
+		System.out.println();
 		server = new ChatServer();
-		
+		server.start();
 	}
 	
 	@After
 	public void afterEachTest() {
-		server.shutdown(); 
+		server.shutdown();
 	}
 	
 	@Test

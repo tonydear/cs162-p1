@@ -4,7 +4,6 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 
-import edu.berkeley.cs.cs162.ChatServer;
 import edu.berkeley.cs.cs162.*;
 import org.junit.*;
 import static org.junit.Assert.* ;
@@ -17,7 +16,9 @@ public class ChatGroupTest {
 	
 	@Before
 	public void beforeEachTest() {
+		System.out.println();
 		server = new ChatServer();
+		server.start();
 		server.login("A");
 		server.login("B");
 		server.login("C");
@@ -26,7 +27,6 @@ public class ChatGroupTest {
 	@After
 	public void afterEachTest() {
 		server.shutdown();
-		
 	}
 	
 	@Test
