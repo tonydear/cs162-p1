@@ -136,6 +136,7 @@ public class TestChatServer {
 	 */
 	//done
 	public static void logUserSendMsg(String username, String msg){
+		System.out.println(username + " sends " + msg);
 	}
 	
 	/**
@@ -149,6 +150,7 @@ public class TestChatServer {
 	 */
 	//done
 	public static void logChatServerDropMsg(String msg, Date time){
+		System.out.println(msg + " dropped at " + time);
 	}
 	
 	/**
@@ -162,5 +164,6 @@ public class TestChatServer {
 	 */
 	//done
 	public static void logUserMsgRecvd(String username, String msg, Date time){
+		System.out.println(username +" received " + msg + " at " + time);
 	}
 }
