@@ -152,6 +152,10 @@ public class User extends BaseUser {
 			TestChatServer.logChatServerDropMsg(formattedMsg, new Date());
 		}
 		sendLock.writeLock().unlock();
+		for(String group : groupsJoined) {
+			TestChatServer.logUserLeaveGroup(group, username, new Date());
+		}
+		groupsJoined.clear();
 		TestChatServer.logUserLogout(username, new Date());
 	}
 }
