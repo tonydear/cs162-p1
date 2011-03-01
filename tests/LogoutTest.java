@@ -1,5 +1,5 @@
 import edu.berkeley.cs.cs162.*;
-
+import junit.framework.TestCase;
 import org.junit.*;
 
 import static org.junit.Assert.* ;
