@@ -65,7 +65,7 @@ public class TestMessageOrder {
 					groupLogs[group] = log.toString();
 					System.out.println(true);
 				}else{
-					System.out.println(u.getLog("group" + group).isSubLog(toCompareto.getLog("group" + group)));
+					System.out.println(u.getLog("group" + group).isSuperLogOf(toCompareto.getLog("group" + group)));
 					System.out.println(u.getLog("group" + group).toString().equals(toCompareto.getLog("group"+group).toString()));
 				}
 					
@@ -74,7 +74,7 @@ public class TestMessageOrder {
 	}
 	
 	public static void testCount(ChatLog log, int count){
-		int size = log.getMessages().size();
+		int size = log.getLog().size();
 		if(size == count)
 			System.out.println("size matches: " + count);
 		else

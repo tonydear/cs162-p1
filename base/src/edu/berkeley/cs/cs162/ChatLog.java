@@ -40,10 +40,6 @@ public class ChatLog {
 		return chatgroup;
 	}
 	
-	public List<Message> getMessages(){
-		return log;
-	}
-	
 	public void add(Message message) { 
 		log.add(message);
 	}
@@ -78,7 +74,7 @@ public class ChatLog {
 		return ret;
 	}
 	
-	public boolean isSubLog(ChatLog chatLog) {
+	public boolean isSuperLogOf(ChatLog chatLog) {
 		boolean isSub = false;
 		String match = chatLog.getLog().get(0).toString();
 		Iterator<Message> iter = log.iterator();
