@@ -68,9 +68,14 @@ public class User extends BaseUser {
 	}
 	
 	public void send(String dest, String msg) {
-		MessageJob pair = new MessageJob(dest, msg);
+		if(loggedOff)
+			return;
 		sendLock.writeLock().lock();
-		toSend.add(pair);
+		MessageJob msgJob = new MessageJob(dest,msg,sqn);
+		String formattedMsg = username + "\t" + dest + "\t" + System.currentTimeMillis()/1000 + "\t" + sqn; 
+		TestChatServer.logUserSendMsg(username, formattedMsg);
+		sqn++;
+		toSend.add(msgJob);
 		sendLock.writeLock().unlock();
 	}
 	
@@ -111,9 +116,8 @@ public class User extends BaseUser {
 		while(!loggedOff){
 			sendLock.writeLock().lock();
 			if(!toSend.isEmpty()) {
-				MessageJob pair = toSend.poll();
-				MsgSendError msgStatus = server.processMessage(username, pair.dest, pair.msg, sqn);
-				sqn++;
+				MessageJob msgJob = toSend.poll();
+				MsgSendError msgStatus = server.processMessage(username, msgJob.dest, msgJob.msg, msgJob.sqn);
 				// Do something with message send error
 			}
 			sendLock.writeLock().unlock();
