@@ -77,16 +77,16 @@ public class User extends BaseUser {
 	
 	public void send(String dest, String msg) {
 		sendLock.writeLock().lock();
-		if(loggedOff){
+		if(loggedOff || toSend.size() >= MAX_SEND){
+			String timestamp = Long.toString(System.currentTimeMillis()/1000);
+			String formattedMsg = username + " " + dest + " " + timestamp+ " " + sqn; 
+			sqn++;
+			TestChatServer.logUserSendMsg(username, formattedMsg);
+			TestChatServer.logChatServerDropMsg(formattedMsg, new Date());
 			sendLock.writeLock().unlock();
 			return;
-
 		}
-		if(toSend.size() >= MAX_SEND){
-			System.out.println(username + " TIMED OUT");
-			sendLock.writeLock().unlock();
-			return;
-		}
+		
 		String timestamp = Long.toString(System.currentTimeMillis()/1000);
 		MessageJob msgJob = new MessageJob(dest,msg,sqn,timestamp);
 		String formattedMsg = username + " " + dest + " " + timestamp+ " " + sqn; 
