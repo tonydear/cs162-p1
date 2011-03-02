@@ -54,15 +54,10 @@ public class LogoutTest {
 		assertTrue(server.getGroup("4").getNumUsers() == 2);
 		
 		server.logoff("A");
-		/*
-		try{
-		Thread.sleep(1000);}
-		catch(Exception e){System.out.println("Exception");}
-		*/
-		assertTrue(server.getGroup("3") == null);
-		assertTrue(server.getGroup("4") == null);
+		
+		assertTrue(server.getGroup("3").getNumUsers() == 1);
+		assertTrue(server.getGroup("4").getNumUsers() == 1);
 		assertTrue(server.getGroup("1") == null);
-		System.out.println("Ran checks");
 		
 	}
 	
