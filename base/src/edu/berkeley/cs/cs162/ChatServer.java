@@ -139,6 +139,10 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		ChatGroup group;
 		User user = (User) baseUser;
 		boolean success = false;
+		if (!users.keySet().contains(user.getUsername())) {
+			lock.writeLock().unlock();
+			return false;
+		}
 		if(groups.containsKey(groupname)) {
 			group = groups.get(groupname);
 			success = group.joinGroup(user.getUsername(), user);
@@ -231,9 +235,7 @@ public class ChatServer extends Thread implements ChatServerInterface {
 	
 	@Override
 	public void run(){
-		System.out.println("Server started.");
 		while(!isDown){
 		}
-		System.out.println("Server down.");
 	}
 }

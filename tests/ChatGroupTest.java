@@ -114,4 +114,14 @@ public class ChatGroupTest {
 			&& messageC.getContent() == "Hello B and C");
 			
 	}
+	
+	@Test
+	public void TestJoinGroupAfterLogoff() {
+		System.out.println("Running test join group after logoff");
+		User a = (User) server.getUser("A");
+		server.logoff("A");
+		System.out.println(a);
+		assertFalse(server.joinGroup(a, "newGroup"));
+		
+	}
 }
