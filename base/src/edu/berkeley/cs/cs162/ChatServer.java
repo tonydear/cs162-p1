@@ -125,7 +125,10 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		while(it.hasNext()){
 			ChatGroup group = groups.get(it.next());
 			if(group.leaveGroup(username)){
-				if(group.getNumUsers() <= 0) { groups.remove(group.getName()); }
+				if(group.getNumUsers() <= 0) { 
+					groups.remove(group.getName()); 
+					allNames.remove(group.getName());
+				}
 			}
 		}
 		users.get(username).getAllGroups().clear();
@@ -181,7 +184,10 @@ public class ChatServer extends Thread implements ChatServerInterface {
 			return false;
 		}
 		if(group.leaveGroup(user.getUsername())) {
-			if(group.getNumUsers() <= 0) { groups.remove(groupname); }
+			if(group.getNumUsers() <= 0) { 
+				groups.remove(group.getName()); 
+				allNames.remove(group.getName());
+			}
 			user.removeFromGroups(groupname);
 			TestChatServer.logUserLeaveGroup(groupname, user.getUsername(), new Date());
 			lock.writeLock().unlock();
