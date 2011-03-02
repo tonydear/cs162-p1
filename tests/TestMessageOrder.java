@@ -38,8 +38,10 @@ public class TestMessageOrder {
 		for(int n = 0; n < 10; n++){ //each user may send to group up to 1k times
 			for(int i = 0; i < 20; i++){
 				if(Math.random() > 0.5){
-					server.getUser("user"+i).send("group" + i/5, "lala");
-					groupMessageCounts[i/5]++;
+					int g = (int)(Math.random() * 20);
+					server.getUser("user"+i).send("group" + g/5, "lala");
+					if(g/5 == i/5)
+						groupMessageCounts[i/5]++;
 				}
 			}
 		}

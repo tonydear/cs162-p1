@@ -123,7 +123,12 @@ public class ChatServer extends Thread implements ChatServerInterface {
 		List <String> userGroups = users.get(username).getUserGroups();
 		Iterator<String> it = userGroups.iterator();
 		while(it.hasNext()){
-			groups.get(it.next()).leaveGroup(username);
+			ChatGroup group = groups.get(it.next());
+			if(group.leaveGroup(username)){
+				if(group.getNumUsers() <= 0) { groups.remove(group.getName()); }
+				users.get(username).removeFromGroups(group.getName());
+				TestChatServer.logUserLeaveGroup(group.getName(), username, new Date());
+			}
 		}
 		users.get(username).logoff();
 		allNames.remove(username);
