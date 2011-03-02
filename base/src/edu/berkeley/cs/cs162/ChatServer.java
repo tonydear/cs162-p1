@@ -131,7 +131,6 @@ public class ChatServer extends Thread implements ChatServerInterface {
 				}
 			}
 		}
-		users.get(username).getAllGroups().clear();
 		users.get(username).logoff();
 		allNames.remove(username);
 		users.remove(username);
