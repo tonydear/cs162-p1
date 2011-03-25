@@ -69,14 +69,14 @@ public class ChatClient {
 	}
 	
 	public synchronized void processCommands(){
-		
+		 
 	}
 	
 	private synchronized void signalReceive(){
 		
 	}
 	
-	public void main(String[] args){
+	public static void main(String[] args){
 		ChatClient client = new ChatClient();
 		while(true){
 			client.processCommands();
